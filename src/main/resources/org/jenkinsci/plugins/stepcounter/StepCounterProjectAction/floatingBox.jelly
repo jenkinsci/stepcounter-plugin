@@ -1,0 +1,15 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
+    <!-- at least two data points are required for a trend report -->
+    <div align="right">
+      <div class="test-trend-caption">
+        ステップ数の推移
+      </div>
+      <div>
+        <img src="stepResult/trend" lazymap="stepResult/trendMap" alt="ステップ数推移"/>
+      </div>
+      <div style="text-align:right">
+        <a href="stepResult/?width=800&amp;height=600">${%enlarge}</a>
+      </div>
+    </div>
+</j:jelly>

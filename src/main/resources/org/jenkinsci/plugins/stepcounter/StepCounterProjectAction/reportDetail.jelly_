@@ -1,0 +1,19 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
+  <l:layout title="StepCounterDetail">
+    <st:include page="sidepanel.jelly" />
+    <l:main-panel>
+	<div align="center">
+		<div class="test-trend-caption">
+			ステップ数詳細
+		</div>
+		<div>
+			<img src="trend" lazymap="trendMap" alt="ステップ数推移"/>
+		</div>
+	</div>
+      <div>
+       TODO : ここに詳細テーブルを入れますよと
+      </div>
+    </l:main-panel>
+  </l:layout>
+</j:jelly>

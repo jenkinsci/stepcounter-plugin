@@ -1,0 +1,113 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
+	<l:layout title="PerfAnalyzerDetail">
+		<l:main-panel>
+			<script type="text/javascript" src="${rootURL}/plugin/stepcounter/jquery/jquery-1.6.2.min.js" />
+			<script type="text/javascript" src="${rootURL}/plugin/stepcounter/jquery/jquery-ui-1.8.16.custom.min.js" />
+			<link href="${rootURL}/plugin/stepcounter/jquery/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+			<script type="text/javascript">
+				$(function(){
+					$('#tabs').tabs({
+						selected: 0,
+						fx: { opacity: 'toggle', duration: 'fast'	}
+						});
+				});
+			</script>
+			<j:set var="allRunsSum" value="0" />
+			<j:set var="allCommentsSum" value="0" />
+			<j:set var="allBlanksSum" value="0" />
+			<j:set var="allTotalSum" value="0" />
+			<j:set var="allFileNum" value="0" />
+			<j:forEach var="iter" items="${it.result.stepsMap}">
+				<j:set var="allFileNum" value="${allFileNum + iter.value.fileSteps.size()}" />
+				<j:forEach var="fileStep" items="${iter.value.fileSteps}">
+					<j:set var="allRunsSum" value="${allRunsSum + fileStep.runs}" />
+					<j:set var="allCommentsSum" value="${allCommentsSum + fileStep.comments}" />
+					<j:set var="allBlanksSum" value="${allBlanksSum + fileStep.blanks}" />
+					<j:set var="allTotalSum" value="${allTotalSum + fileStep.total}" />
+				</j:forEach>
+			</j:forEach>	
+			<div align="left"><h1>全カテゴリ ${allFileNum} ファイルのサマリ</h1></div>
+			<table class="pane" id="allSummary">
+				<tr>
+					<td class="pane-header"> 全カテゴリ 実行行合計</td>
+					<td class="pane-header"> 全カテゴリ コメント行合計</td>
+					<td class="pane-header"> 全カテゴリ 空行合計</td>
+					<td class="pane-header"> 全カテゴリ 総計</td>
+				</tr>
+				<tbody>
+						<tr>
+							<td class="pane">${allRunsSum}</td>
+							<td class="pane">${allCommentsSum}</td>
+							<td class="pane">${allBlanksSum}</td>
+							<td class="pane">${allTotalSum}</td>
+						</tr>
+				</tbody>
+			</table>
+			<div align="left"><h1>各カテゴリのサマリ</h1></div>
+			<div id="tabs">
+				<ul>
+					<j:forEach var="iter" items="${it.result.stepsMap}">
+						<li><a href="#${iter.key}">${iter.key}</a></li>
+					</j:forEach>
+				</ul>
+				<j:forEach var="iter" items="${it.result.stepsMap}">
+					<div id="${iter.key}">
+						<div align="left"><h3>${iter.value.fileSteps.size()} ファイルのサマリ</h3></div>
+						<table class="pane" id="summary">
+							<tr>
+								<td class="pane-header"> 実行行合計</td>
+								<td class="pane-header"> コメント行合計</td>
+								<td class="pane-header"> 空行合計</td>
+								<td class="pane-header"> 総計</td>
+							</tr>
+							<tbody>
+								<j:set var="runsSum" value="0" />
+								<j:set var="commentsSum" value="0" />
+								<j:set var="blanksSum" value="0" />
+								<j:set var="totalSum" value="0" />
+								<j:forEach var="fileStep" items="${iter.value.fileSteps}" indexVar="index">
+									<j:set var="runsSum" value="${runsSum + fileStep.runs}" />
+									<j:set var="commentsSum" value="${commentsSum + fileStep.comments}" />
+									<j:set var="blanksSum" value="${blanksSum + fileStep.blanks}" />
+									<j:set var="totalSum" value="${totalSum + fileStep.total}" />
+								</j:forEach>			
+								<tr >
+									<td class="pane">${runsSum}</td>
+									<td class="pane">${commentsSum}</td>
+									<td class="pane">${blanksSum}</td>
+									<td class="pane">${totalSum}</td>
+								</tr>
+							</tbody>
+						</table>
+						<div align="left"><h3>各ファイルの詳細</h3></div>
+						<table class="pane" id="summary">
+							<tr>
+								<td class="pane-header"> #</td>
+								<td class="pane-header"> ファイルパス</td>
+								<td class="pane-header"> ファイル名</td>
+								<td class="pane-header"> 実行行数</td>
+								<td class="pane-header"> コメント行数</td>
+								<td class="pane-header"> 空行数</td>
+								<td class="pane-header"> 合計</td>
+							</tr>
+							<tbody>
+								<j:forEach var="fileStep" items="${iter.value.fileSteps}" indexVar="index">
+										<tr>
+											<td class="pane">${index + 1}</td>
+											<td class="pane">${fileStep.parentDirRelativePath}</td>
+											<td class="pane">${fileStep.fileName}</td>
+											<td class="pane">${fileStep.runs}</td>
+											<td class="pane">${fileStep.comments}</td>
+											<td class="pane">${fileStep.blanks}</td>
+											<td class="pane">${fileStep.total}</td>
+										</tr>
+									</j:forEach>
+							</tbody>
+						</table>
+					</div>
+				</j:forEach>
+			</div>
+		</l:main-panel>
+	</l:layout>
+</j:jelly>
