@@ -5,20 +5,16 @@
 		<groupId>org.jenkins-ci.plugins</groupId>
 		<artifactId>plugin</artifactId>
 		<version>1.430</version>
-		<!--
-			which version of Jenkins is this plugin built against?
-		-->
+		<!-- which version of Jenkins is this plugin built against? -->
 	</parent>
 
 	<artifactId>stepcounter</artifactId>
 	<name>StepCounter Plugin</name>
-	<version>1.1</version>
+	<version>1.1-SNAPSHOT</version>
 	<packaging>hpi</packaging>
 
-	<!--
-		get every artifact through maven.glassfish.org, which proxies all the
-		artifacts that we need
-	-->
+	<!-- get every artifact through maven.glassfish.org, which proxies all the 
+		artifacts that we need -->
 	<repositories>
 		<repository>
 			<id>m.g.o-public</id>
@@ -75,7 +71,8 @@
 					</configuration>
 
 				</plugin>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -209,4 +206,16 @@
 		</pluginManagement>
 	</build>
 
+	<url>https://wiki.jenkins-ci.org/display/JENKINS/Step+Counter+Plugin</url>
+	<developers>
+		<developer>
+			<id>stepcounter-plugin</id>
+			<name>Step Counter Plugin</name>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git:ssh://github.com/jenkinsci/stepcounter-plugin.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/ssh://ssh://jenkinsci/stepcounter-plugin.git</developerConnection>
+		<url>https://github.com/jenkinsci/stepcounter-plugin.git</url>
+	</scm>
 </project>
