@@ -27,14 +27,14 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 
     private String encoding;
 
-    private PrintStream logger;
+    private BuildListener listener;
 
     public StepCounterParser(final String filePattern, final String filePatternExclude, final String encoding,
             final BuildListener listener) {
         this.filePattern = filePattern;
         this.filePatternExclude = filePatternExclude;
         this.encoding = encoding;
-        this.logger = listener.getLogger();
+        this.listener = listener;
     }
 
     public StepCounterResult invoke(final File workspace, final VirtualChannel channel) throws IOException {
@@ -43,23 +43,23 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
             String[] fileNames = new FileFinder(filePattern, filePatternExclude).find(workspace);
 
             if (fileNames.length == 0) {
-                logger.println("ファイルが見つかりませんでした。");
+            	listener.getLogger().println("ファイルが見つかりませんでした。");
             } else {
-                logger.println("Parsing " + fileNames.length + " files in " + workspace.getAbsolutePath());
+                listener.getLogger().println("Parsing " + fileNames.length + " files in " + workspace.getAbsolutePath());
                 parseFiles(workspace, fileNames, result);
             }
         } catch (InterruptedException exception) {
-            logger.println("Parsing has been canceled.");
+            listener.getLogger().println("Parsing has been canceled.");
         }
 
-        logger.println("解析完了:" + result.getFileSteps().size() + "ファイル");
+        listener.getLogger().println("解析完了:" + result.getFileSteps().size() + "ファイル");
 
         long total = 0;
         for (Object oStep : result.getFileSteps()) {
             FileStep step = (FileStep) oStep;
             total += step.getRuns();
         }
-        logger.println("実行行合計[" + total + "]");
+        listener.getLogger().println("実行行合計[" + total + "]");
 
         return result;
     }
@@ -99,7 +99,7 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
     }
 
     private void parseFile(final File file, final StepCounterResult result, final String rootPath) throws IOException {
-        logger.println("[stepcounter] " + file.getAbsolutePath());
+        listener.getLogger().println("[stepcounter] " + file.getAbsolutePath());
         StepCounter counter = StepCounterFactory.getCounter(file.getName());
         if (counter != null) {
 
@@ -109,12 +109,8 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
             step.setParentDirRelativePath(Util.getParentDirRelativePath(file, rootPath));
             result.addFileStep(step);
         } else {
-            logger.println("対応していないファイル形式[" + file.getName() + "]");
+            listener.getLogger().println("対応していないファイル形式[" + file.getName() + "]");
         }
-        // StepCounterFileParser parser =
-        // StepCounterFileParserFactory.getInstance().createParser(file);
-        // List<FileStep> steps = parser.parse(file);
-        // result.setFileSteps(steps);
     }
 
     private FileStep getFileStep(CountResult countResult) {

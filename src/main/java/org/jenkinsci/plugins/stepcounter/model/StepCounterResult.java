@@ -1,11 +1,15 @@
 package org.jenkinsci.plugins.stepcounter.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jenkinsci.plugins.stepcounter.model.FileStep;
+public class StepCounterResult implements Serializable{
 
-public class StepCounterResult {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	List<FileStep> _steps = new ArrayList<FileStep>();
 

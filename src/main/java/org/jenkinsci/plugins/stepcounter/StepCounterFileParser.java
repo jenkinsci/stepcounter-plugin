@@ -7,5 +7,5 @@ import org.jenkinsci.plugins.stepcounter.model.FileStep;
 
 public interface StepCounterFileParser {
 
-	List<FileStep> parse(File file,String rootPath);
+	List<FileStep> parse(File file, String rootPath);
 }

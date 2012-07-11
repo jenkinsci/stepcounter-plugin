@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.stepcounter;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,7 +9,12 @@ import org.jenkinsci.plugins.stepcounter.exception.PaserNotFoundException;
 import org.jenkinsci.plugins.stepcounter.parser.CSVStepCounterFileParser;
 import org.jenkinsci.plugins.stepcounter.parser.XMLStepCounterFileParser;
 
-public class StepCounterFileParserFactory {
+public class StepCounterFileParserFactory implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	enum Ext {
 		csv, xml

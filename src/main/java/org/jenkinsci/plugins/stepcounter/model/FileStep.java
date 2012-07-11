@@ -1,10 +1,16 @@
 package org.jenkinsci.plugins.stepcounter.model;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class FileStep {
+public class FileStep implements Serializable {
 
-    File _file;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1395778114180423941L;
+
+	File _file;
 
     long _total;
 
