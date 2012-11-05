@@ -214,8 +214,8 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:git:ssh://github.com/jenkinsci/stepcounter-plugin.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/ssh://ssh://jenkinsci/stepcounter-plugin.git</developerConnection>
+		<connection>scm:git:git://github.com/jenkinsci/stepcounter-plugin.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/stepcounter-plugin.git</developerConnection>
 		<url>https://github.com/jenkinsci/stepcounter-plugin.git</url>
 	</scm>
 </project>
