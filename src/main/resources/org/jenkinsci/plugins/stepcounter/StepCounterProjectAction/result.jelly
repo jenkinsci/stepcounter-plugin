@@ -1,7 +1,9 @@
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
-	<l:layout title="PerfAnalyzerDetail">
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
+	<l:layout title="ステップ数詳細">
+ 		<st:include page="sidepanel.jelly" it="${it.result.owner}" />
 		<l:main-panel>
+	
 			<script type="text/javascript" src="${rootURL}/plugin/stepcounter/jquery/jquery-1.6.2.min.js" />
 			<script type="text/javascript" src="${rootURL}/plugin/stepcounter/jquery/jquery-ui-1.8.16.custom.min.js" />
 			<link href="${rootURL}/plugin/stepcounter/jquery/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
