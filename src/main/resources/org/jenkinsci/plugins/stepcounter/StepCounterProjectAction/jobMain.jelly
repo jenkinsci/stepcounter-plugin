@@ -29,7 +29,7 @@
 					<tr>
 						<td> 実行行合計</td>
 						<td>${allRunsSum}</td>
-					</tr>
+					</tr>z
 					<tr>
 						<td> コメント行合計</td>
 						<td>${allCommentsSum}</td>
