@@ -1,0 +1,49 @@
+<!-- Section header <%@attribute name="icon" required="false" %> -->
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+	xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
+	xmlns:u="/util">
+	<table style="margin-top: 1em; margin-left:1em;">
+		<tr>
+			<td>
+				<a>
+					<img height="48" style="margin-right:1em" alt="" width="48"
+						src="${rootURL}/images/48x48/graph.png" />
+				</a>
+			</td>
+			<td>
+				<table>
+					<j:forEach var="iter" items="${it.previousResult.stepsMap}">
+						<j:set var="allFileNum" value="${allFileNum + iter.value.fileSteps.size()}" />
+						<j:forEach var="fileStep" items="${iter.value.fileSteps}">
+							<j:set var="allRunsSum" value="${allRunsSum + fileStep.runs}" />
+							<j:set var="allCommentsSum" value="${allCommentsSum + fileStep.comments}" />
+							<j:set var="allBlanksSum" value="${allBlanksSum + fileStep.blanks}" />
+							<j:set var="allTotalSum" value="${allTotalSum + fileStep.total}" />
+						</j:forEach>
+					</j:forEach>
+					<tr>
+						<td>
+							<a href="stepResult">ステップ数詳細</a>
+						</td>
+					</tr>
+					<tr>
+						<td> 実行行合計</td>
+						<td>${allRunsSum}</td>
+					</tr>
+					<tr>
+						<td> コメント行合計</td>
+						<td>${allCommentsSum}</td>
+					</tr>
+					<tr>
+						<td> 空行合計</td>
+						<td>${allBlanksSum}</td>
+					</tr>
+					<tr>
+						<td> 総計</td>
+						<td>${allTotalSum}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</j:jelly>
