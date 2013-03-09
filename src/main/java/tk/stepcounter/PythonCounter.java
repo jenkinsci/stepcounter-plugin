@@ -13,7 +13,7 @@ import tk.stepcounter.diffcount.DiffCounterUtil;
 import tk.stepcounter.diffcount.DiffSource;
 
 /**
- * docstring‚ğƒRƒƒ“ƒg‚Æ‚İ‚È‚·Python—p‚ÌƒXƒeƒbƒvƒJƒEƒ“ƒ^‚Å‚·B
+ * docstringï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Æ‚İ‚È‚ï¿½Pythonï¿½pï¿½ÌƒXï¿½eï¿½bï¿½vï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½Å‚ï¿½ï¿½B
  */
 public class PythonCounter implements StepCounter, Cutter {
 
@@ -23,9 +23,9 @@ public class PythonCounter implements StepCounter, Cutter {
 	private static final String DOCSTRING_DELIMITER = "\"\"\""; // docstring delimiter
 
 	/**
-	 * ƒJƒEƒ“ƒg‚µ‚Ü‚·B
+	 * ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 *
-	 * @param file ƒJƒEƒ“ƒg‘ÎÛ‚Ìƒtƒ@ƒCƒ‹
+	 * @param file ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ÎÛ‚Ìƒtï¿½@ï¿½Cï¿½ï¿½
 	 */
 	public CountResult count(File file, String charset) throws IOException {
 		BufferedReader reader = new BufferedReader(
@@ -47,6 +47,7 @@ public class PythonCounter implements StepCounter, Cutter {
 				}
 			}
 			if(IGNORE_PATTERN.matcher(line).find()){
+				reader.close();
 				return null;
 			}
 
@@ -89,7 +90,7 @@ public class PythonCounter implements StepCounter, Cutter {
 		String category = "";
 		boolean isIgnore = false;
 
-		// docstring‚ğíœ
+		// docstringï¿½ï¿½ï¿½íœ
 		String[] lines = source.split("\n");
 		StringBuilder sb = new StringBuilder();
 
@@ -132,11 +133,11 @@ public class PythonCounter implements StepCounter, Cutter {
 
 		source = sb.toString();
 
-		// 1sƒRƒƒ“ƒg‚ğíœ
+		// 1ï¿½sï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½íœ
 		Matcher matcher = SINGLE_LINE_COMMENT_PATTERN.matcher(source);
 		source = matcher.replaceAll("");
 
-		// ‹ós‚ğíœ‚µ‚Ä•Ô‹p
+		// ï¿½ï¿½sï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½Ä•Ô‹p
 		return new DiffSource(DiffCounterUtil.removeEmptyLines(source), isIgnore, category);
 	}
 }

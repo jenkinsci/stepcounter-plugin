@@ -15,7 +15,7 @@ import au.com.bytecode.opencsv.CSVReader;
 
 public class CSVStepCounterFileParser implements StepCounterFileParser {
 
-	public List<FileStep> parse(File file,String rootPath) {
+	public List<FileStep> parse(File file, String rootPath) {
 		List<FileStep> steps = new ArrayList<FileStep>();
 		CSVReader reader = null;
 		try {
@@ -30,11 +30,18 @@ public class CSVStepCounterFileParser implements StepCounterFileParser {
 				step.setComments(Integer.valueOf(nextLine[5]));
 				step.setTotal(Integer.valueOf(nextLine[6]));
 				step.setFile(file);
-				step.setParentDirRelativePath(Util.getParentDirRelativePath(file,rootPath));
+				step.setParentDirRelativePath(Util.getParentDirRelativePath(
+						file, rootPath));
 				steps.add(step);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return steps;
 	}

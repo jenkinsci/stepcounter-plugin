@@ -56,17 +56,17 @@ public class Main {
 		if(args==null || args.length==0){
 			System.exit(0);
 		}
-		String format = null;
-		String output = null;
+//		String format = null;
+//		String output = null;
 		String encoding = null;
 		ArrayList<File> fileList = new ArrayList<File>();
 		for(int i=0;i<args.length;i++){
 			if(args[i].startsWith("-format=")){
-				String[] dim = Util.split(args[i],"=");
-				format = dim[1];
+//				String[] dim = Util.split(args[i],"=");
+//				format = dim[1];
 			} else if(args[i].startsWith("-output=")){
-				String[] dim = Util.split(args[i],"=");
-				output = dim[1];
+//				String[] dim = Util.split(args[i],"=");
+//				output = dim[1];
 			} else if(args[i].startsWith("-encoding=")){
 				String[] dim = Util.split(args[i],"=");
 				encoding = dim[1];

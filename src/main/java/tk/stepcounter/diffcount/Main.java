@@ -7,24 +7,24 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import tk.stepcounter.Util;
-import tk.stepcounter.diffcount.object.DiffFolderResult;
 
 public class Main {
 
+	@SuppressWarnings("unused")
 	private OutputStream output = System.out;
 
-	private File srcdir = null;
-	private File olddir = null;
+//	private File srcdir = null;
+//	private File olddir = null;
 	private String format = null;
 	private String encoding = null;
 
-	public void setSrcdir(File srcdir) {
-		this.srcdir = srcdir;
-	}
-
-	public void setOlddir(File olddir) {
-		this.olddir = olddir;
-	}
+//	public void setSrcdir(File srcdir) {
+//		this.srcdir = srcdir;
+//	}
+//
+//	public void setOlddir(File olddir) {
+//		this.olddir = olddir;
+//	}
 
 	public void setFormat(String format) {
 		this.format = format;
@@ -48,7 +48,7 @@ public class Main {
 			}
 
 			DiffCounter.setEncoding(encoding);
-			DiffFolderResult result = DiffCounter.count(olddir, srcdir);
+//			DiffFolderResult result = DiffCounter.count(olddir, srcdir);
 
 		} catch(Throwable t){
 			t.printStackTrace();
@@ -101,8 +101,8 @@ public class Main {
 			main.setOutput(new FileOutputStream(output));
 		}
 		main.setEncoding(encoding);
-		main.setSrcdir(fileList.get(0));
-		main.setOlddir(fileList.get(1));
+//		main.setSrcdir(fileList.get(0));
+//		main.setOlddir(fileList.get(1));
 
 		main.executeCount();
 	}

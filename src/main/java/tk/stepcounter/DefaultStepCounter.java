@@ -15,7 +15,7 @@ import tk.stepcounter.diffcount.Cutter;
 import tk.stepcounter.diffcount.DiffCounterUtil;
 import tk.stepcounter.diffcount.DiffSource;
 
-/** ƒJƒXƒ^ƒ}ƒCƒY‚µ‚Äg—p‚Å‚«‚é•W€‚ÌƒXƒeƒbƒvƒJƒEƒ“ƒ^‚Å‚· */
+/** ï¿½Jï¿½Xï¿½^ï¿½}ï¿½Cï¿½Yï¿½ï¿½ï¿½Ägï¿½pï¿½Å‚ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ÌƒXï¿½eï¿½bï¿½vï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½Å‚ï¿½ */
 public class DefaultStepCounter implements StepCounter, Cutter {
 
 	private static Pattern CATEGORY_PATTERN = Pattern.compile("\\[\\[(.*?)\\]\\]");
@@ -27,44 +27,44 @@ public class DefaultStepCounter implements StepCounter, Cutter {
 	private String fileType = "UNDEF";
 
 	/**
-	 * ƒXƒLƒbƒv‚·‚éƒpƒ^[ƒ“i³‹K•\Œ»j‚ğ’Ç‰Á‚µ‚Ü‚·B
+	 * ï¿½Xï¿½Lï¿½bï¿½vï¿½ï¿½ï¿½ï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½Kï¿½\ï¿½ï¿½ï¿½jï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 *
-	 * @param pattern ƒXƒLƒbƒv‚·‚éƒpƒ^[ƒ“i³‹K•\Œ»j
+	 * @param pattern ï¿½Xï¿½Lï¿½bï¿½vï¿½ï¿½ï¿½ï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½Kï¿½\ï¿½ï¿½ï¿½j
 	 */
 	public void addSkipPattern(String pattern){
 		this.skipPatterns.add(pattern);
 	}
 
 	/**
-	 * ƒXƒLƒbƒv‚·‚éƒpƒ^[ƒ“‚ğæ“¾‚µ‚Ü‚·B
+	 * ï¿½Xï¿½Lï¿½bï¿½vï¿½ï¿½ï¿½ï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 *
-	 * @return ƒXƒLƒbƒv‚·‚éƒpƒ^[ƒ“i³‹K•\Œ»j‚Ì”z—ñ
+	 * @return ï¿½Xï¿½Lï¿½bï¿½vï¿½ï¿½ï¿½ï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½Kï¿½\ï¿½ï¿½ï¿½jï¿½Ì”zï¿½ï¿½
 	 */
 	public String[] getSkipPatterns(){
 		return (String[])skipPatterns.toArray(new String[skipPatterns.size()]);
 	}
 
-	/** ƒtƒ@ƒCƒ‹‚Ìí—Ş‚ğİ’è‚µ‚Ü‚· */
+	/** ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìï¿½Ş‚ï¿½İ’è‚µï¿½Ü‚ï¿½ */
 	public void setFileType(String fileType){
 		this.fileType = fileType;
 	}
 
-	/** ƒtƒ@ƒCƒ‹‚Ìí—Ş‚ğæ“¾‚µ‚Ü‚· */
+	/** ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìï¿½Ş‚ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ */
 	public String getFileType(){
 		return this.fileType;
 	}
 
-	/** ’PˆêsƒRƒƒ“ƒg‚ÌŠJn•¶š—ñ‚ğ’Ç‰Á‚µ‚Ü‚· */
+	/** ï¿½Pï¿½ï¿½sï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ÌŠJï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ */
 	public void addLineComment(String str){
 		this.lineComments.add(str);
 	}
 
-	/** •¡”sƒRƒƒ“ƒg‚ğ’Ç‰Á‚µ‚Ü‚· */
+	/** ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ */
 	public void addAreaComment(AreaComment area){
 		this.areaComments.add(area);
 	}
 
-	/** ƒJƒEƒ“ƒg‚µ‚Ü‚· */
+	/** ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ü‚ï¿½ */
 	public CountResult count(File file, String charset) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				new FileInputStream(file), charset));
@@ -85,6 +85,7 @@ public class DefaultStepCounter implements StepCounter, Cutter {
 				}
 			}
 			if(IGNORE_PATTERN.matcher(line).find()){
+				reader.close();
 				return null;
 			}
 
@@ -113,7 +114,7 @@ public class DefaultStepCounter implements StepCounter, Cutter {
 		return new CountResult(file.getName(), getFileType(), category, step, non, comment);
 	}
 
-	/** ƒXƒLƒbƒvƒpƒ^[ƒ“‚Éƒ}ƒbƒ`‚·‚é‚©ƒ`ƒFƒbƒN */
+	/** ï¿½Xï¿½Lï¿½bï¿½vï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½Éƒ}ï¿½bï¿½`ï¿½ï¿½ï¿½é‚©ï¿½`ï¿½Fï¿½bï¿½N */
 	private boolean skipPatternCheck(String line){
 		for(int i=0;i<skipPatterns.size();i++){
 			if(Pattern.matches((String) skipPatterns.get(i), line)){
@@ -123,7 +124,7 @@ public class DefaultStepCounter implements StepCounter, Cutter {
 		return false;
 	}
 
-	/** ‹ós‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN */
+	/** ï¿½ï¿½sï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N */
 	private boolean nonCheck(String line){
 		if(line.equals("")){
 			return true;
@@ -131,7 +132,7 @@ public class DefaultStepCounter implements StepCounter, Cutter {
 		return false;
 	}
 
-	/** ’PˆêsƒRƒƒ“ƒg‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN */
+	/** ï¿½Pï¿½ï¿½sï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N */
 	private boolean lineCommentCheck(String line){
 		for(int i=0;i<lineComments.size();i++){
 			if(line.startsWith((String) lineComments.get(i))){
@@ -152,7 +153,7 @@ public class DefaultStepCounter implements StepCounter, Cutter {
 	}
 
 	/**
-	 * •¡”sƒRƒƒ“ƒg‚ªŠJn‚µ‚Ä‚¢‚é‚©ƒ`ƒFƒbƒN
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½`ï¿½Fï¿½bï¿½N
 	 */
 	private AreaComment areaCommentStartCheck(String line){
 		for(int i=0;i<areaComments.size();i++){
@@ -168,7 +169,7 @@ public class DefaultStepCounter implements StepCounter, Cutter {
 		return null;
 	}
 
-	/** •¡”sƒRƒƒ“ƒg‚ªI—¹‚µ‚Ä‚¢‚é‚©ƒ`ƒFƒbƒN */
+	/** ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½`ï¿½Fï¿½bï¿½N */
 	private boolean areaCommentEndCheck(String line,AreaComment area){
 		String end = area.getEndString();
 		if(line.indexOf(end)>=0){
@@ -201,14 +202,14 @@ public class DefaultStepCounter implements StepCounter, Cutter {
 			Util.close(reader);
 		}
 
-		// ’PˆêƒRƒƒ“ƒg‚ğíœ
+		// ï¿½Pï¿½ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½íœ
 		for(String lineComment: this.lineComments){
 			Pattern	pattern = Pattern.compile(Pattern.quote(lineComment) + ".+");
 			Matcher matcher = pattern.matcher(source);
 			source = matcher.replaceAll("");
 		}
 
-		// •¡”sƒRƒƒ“ƒg‚ğíœ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½íœ
 		for(AreaComment areaComment: this.areaComments){
 			Pattern	pattern = Pattern.compile(
 					Pattern.quote(areaComment.getStartString()) + ".+?" + Pattern.quote(areaComment.getEndString()),
@@ -217,21 +218,21 @@ public class DefaultStepCounter implements StepCounter, Cutter {
 			source = matcher.replaceAll("");
 		}
 
-		// ‹ós‚ğíœ‚µ‚Ä•Ô‹p
+		// ï¿½ï¿½sï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½Ä•Ô‹p
 		return new DiffSource(DiffCounterUtil.removeEmptyLines(source), isIgnore, category);
 	}
 
 //    /**
-//     * •¶š—ñ’†‚Ì”CˆÓ‚Ì•¶š—ñ‚ğw’è‚µ‚½•¶š—ñ‚É’uŠ·‚µ‚Ü‚·B
+//     * ï¿½ï¿½ï¿½ï¿½ï¿½ñ’†‚Ì”Cï¿½Ó‚Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è‚µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É’uï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 //     *
-//     * @param s •ÏŠ·‘ÎÛ‚Ì•¶š—ñB
-//     * @param s1 s2‚É’u‚«Š·‚í‚é•¶š—ñB
-//     * @param s2 s1‚É’u‚«Š·‚¦‚é•¶š—ñB
-//     * @return •ÏŠ·Œã‚Ì•¶š—ñBs‚ªnull‚Ìê‡‚Í‹ó•¶š—ñ‚ğ•Ô‚µ‚Ü‚·B
+//     * @param s ï¿½ÏŠï¿½ï¿½ÎÛ‚Ì•ï¿½ï¿½ï¿½ï¿½ï¿½B
+//     * @param s1 s2ï¿½É’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½B
+//     * @param s2 s1ï¿½É’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½B
+//     * @return ï¿½ÏŠï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½Bsï¿½ï¿½nullï¿½Ìê‡ï¿½Í‹ó•¶ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 //     */
 //    private static String replace(String s,String s1,String s2){
 //
-//        // s ‚ªNULL‚¾‚Á‚½ê‡A‹ó•¶š—ñ‚ğ•Ô‚·
+//        // s ï¿½ï¿½NULLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ó•¶ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 //        if(s==null){ return ""; }
 //
 //        StringBuffer sb = new StringBuffer();
