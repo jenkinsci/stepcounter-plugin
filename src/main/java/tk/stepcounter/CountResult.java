@@ -88,9 +88,9 @@ public class CountResult {
 	public String toString(){
 		StringBuffer sb = new StringBuffer();
 		sb.append(getFileName()).append(" ");
-		sb.append("���s:").append(Long.toString(getStep())).append(" ");
-		sb.append("��s:").append(Long.toString(getNon())).append(" ");
-		sb.append("�R�����g:").append(Long.toString(getComment()));
+		sb.append("・ｽ・ｽ・ｽs:").append(Long.toString(getStep())).append(" ");
+		sb.append("・ｽ・ｽs:").append(Long.toString(getNon())).append(" ");
+		sb.append("・ｽR・ｽ・ｽ・ｽ・ｽ・ｽg:").append(Long.toString(getComment()));
 		return sb.toString();
 	}
 }

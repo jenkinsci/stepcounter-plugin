@@ -33,7 +33,7 @@ public class Util {
 				zenCnt ++;
 			}
 		}
-		// �S�p�o�C�g�̐�����̏ꍇ
+		// ・ｽS・ｽp・ｽo・ｽC・ｽg・ｽﾌ撰ｿｽ・ｽ・ｽ・ｽ・費ｿｽﾌ場合
 		if(zenCnt % 2 == 1) {
 			loopCnt--;
 		}

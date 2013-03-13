@@ -9,7 +9,7 @@ import org.suigeneris.jrcs.diff.delta.DeleteDelta;
 import org.suigeneris.jrcs.diff.delta.Delta;
 
 /**
- * ������̍����擾���s�����߂�Diff�G���W���ł��B
+ * ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽﾌ搾ｿｽ・ｽ・ｽ・ｽ謫ｾ・ｽ・ｽ・ｽs・ｽ・ｽ・ｽ・ｽ・ｽﾟゑｿｽDiff・ｽG・ｽ・ｽ・ｽW・ｽ・ｽ・ｽﾅゑｿｽ・ｽB
  *
  * @author Naoki Takezoe
  */
@@ -22,11 +22,11 @@ public class DiffEngine {
 	private String[]		text2;
 
 	/**
-	 * �R���X�g���N�^�B
+	 * ・ｽR・ｽ・ｽ・ｽX・ｽg・ｽ・ｽ・ｽN・ｽ^・ｽB
 	 *
-	 * @param handler �n���h��
-	 * @param text1   �ҏW�O�̕�����inull�̏ꍇ�͋󕶎���Ƃ��Ĉ����܂��j
-	 * @param text2   �ҏW��̕�����inull�̏ꍇ�͋󕶎���Ƃ��Ĉ����܂��j
+	 * @param handler ・ｽn・ｽ・ｽ・ｽh・ｽ・ｽ
+	 * @param text1   ・ｽﾒ集・ｽO・ｽﾌ包ｿｽ・ｽ・ｽ・ｽ・ｽinull・ｽﾌ場合・ｽﾍ空文趣ｿｽ・ｽ・ｽﾆゑｿｽ・ｽﾄ茨ｿｽ・ｽ・ｽ・ｽﾜゑｿｽ・ｽj
+	 * @param text2   ・ｽﾒ集・ｽ・ｽﾌ包ｿｽ・ｽ・ｽ・ｽ・ｽinull・ｽﾌ場合・ｽﾍ空文趣ｿｽ・ｽ・ｽﾆゑｿｽ・ｽﾄ茨ｿｽ・ｽ・ｽ・ｽﾜゑｿｽ・ｽj
 	 */
 	public DiffEngine(IDiffHandler handler, String text1, String text2) {
 		if (text1 == null) {
@@ -41,7 +41,7 @@ public class DiffEngine {
 	}
 
 	/**
-	 * �����擾���������s���܂��B
+	 * ・ｽ・ｽ・ｽ・ｽ・ｽ謫ｾ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽs・ｽ・ｽ・ｽﾜゑｿｽ・ｽB
 	 */
 	public void doDiff() {
 
@@ -126,10 +126,10 @@ public class DiffEngine {
 	}
 
 	/**
-	 * ��������P�s���Ƃɕ������܂��B
+	 * ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽP・ｽs・ｽ・ｽ・ｽﾆに包ｿｽ・ｽ・ｽ・ｽ・ｽ・ｽﾜゑｿｽ・ｽB
 	 *
-	 * @param text ������
-	 * @return �P�s���Ƃɕ������ꂽ������
+	 * @param text ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ
+	 * @return ・ｽP・ｽs・ｽ・ｽ・ｽﾆに包ｿｽ・ｽ・ｽ・ｽ・ｽ・ｽ黷ｽ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ
 	 */
 	private static String[] splitLine(String text) {
 		String result = text;

@@ -12,7 +12,7 @@ public class Main {
 		this.files = files;
 	}
 
-	/** �J�E���g�����s���܂� */
+	/** ・ｽJ・ｽE・ｽ・ｽ・ｽg・ｽ・ｽ・ｽ・ｽ・ｽs・ｽ・ｽ・ｽﾜゑｿｽ */
 	public void executeCount(String encoding) throws IOException {
 		ArrayList<CountResult> list = new ArrayList<CountResult>();
 		for(int i=0;i<files.length;i++){
@@ -24,7 +24,7 @@ public class Main {
 		CountResult[] results = (CountResult[])list.toArray(new CountResult[list.size()]);
 	}
 
-	/** �P�t�@�C�����J�E���g */
+	/** ・ｽP・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽ・ｽJ・ｽE・ｽ・ｽ・ｽg */
 	private CountResult[] count(File file, String encoding) throws IOException {
 		if(file.isDirectory()){
 			File[] files = file.listFiles();
@@ -42,7 +42,7 @@ public class Main {
 				CountResult result = counter.count(file, encoding);
 				return new CountResult[]{result};
 			} else {
-				// ���Ή��̌`���̏ꍇ�͌`����null��ݒ肵�ĕԂ�
+				// ・ｽ・ｽ・ｽﾎ会ｿｽ・ｽﾌ形・ｽ・ｽ・ｽﾌ場合・ｽﾍ形・ｽ・ｽ・ｽ・ｽnull・ｽ・ｽﾝ定し・ｽﾄ返ゑｿｽ
 				return new CountResult[]{
 					new CountResult(file.getName(), null, null, 0, 0, 0)
 				};
@@ -50,7 +50,7 @@ public class Main {
 		}
 	}
 
-	/** �R�}���h���C���N���p���\�b�h */
+	/** ・ｽR・ｽ}・ｽ・ｽ・ｽh・ｽ・ｽ・ｽC・ｽ・ｽ・ｽN・ｽ・ｽ・ｽp・ｽ・ｽ・ｽ\・ｽb・ｽh */
 	public static void main(String[] args) throws IOException {
 
 		if(args==null || args.length==0){

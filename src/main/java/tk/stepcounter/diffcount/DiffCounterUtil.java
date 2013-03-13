@@ -13,19 +13,8 @@ import tk.stepcounter.diffcount.object.AbstractDiffResult;
 import tk.stepcounter.diffcount.object.DiffFileResult;
 import tk.stepcounter.diffcount.object.DiffFolderResult;
 
-/**
- * ���[�e�B���e�B���\�b�h��񋟂��܂��B
- *
- * @author Naoki Takezoe
- */
 public class DiffCounterUtil {
 
-	/**
-	 * �t�@�C���𖳎����邩�ǂ����𔻒肵�܂��B
-	 *
-	 * @param file �t�@�C��
-	 * @return ��������ꍇtrue�A�������Ȃ��ꍇfalse
-	 */
 	public static boolean isIgnore(File file) {
 		String name = file.getName();
 		if (name.equals("CVS")) {
@@ -48,12 +37,6 @@ public class DiffCounterUtil {
 		return format.format(date);
 	}
 
-	/**
-	 * �\�[�X�����s���폜���܂��B
-	 *
-	 * @param source �\�[�X
-	 * @return �\�[�X�����s���폜����������
-	 */
 	public static String removeEmptyLines(String source) {
 		StringBuilder sb = new StringBuilder();
 		String[] lines = DiffCounterUtil.split(source);
@@ -66,12 +49,6 @@ public class DiffCounterUtil {
 		return sb.toString();
 	}
 
-	/**
-	 * �\�[�X���s���Ƃɕ������Ĕz��ŕԋp���܂��B
-	 *
-	 * @param source �\�[�X
-	 * @return �\�[�X���s���Ƃɕ��������z��
-	 */
 	public static String[] split(String source) {
 		List<String> lines = new ArrayList<String>();
 		StringBuilder sb = new StringBuilder();
@@ -93,14 +70,6 @@ public class DiffCounterUtil {
 		return lines.toArray(new String[lines.size()]);
 	}
 
-	/**
-	 * �t�@�C������\�[�X��ǂݍ��݂܂��B
-	 * �\�[�X�̉�s�R�[�h��LF�ɓ��ꂵ�ĕԋp���܂��B
-	 *
-	 * @param file �\�[�X�t�@�C��
-	 * @param charset �����R�[�h
-	 * @return �t�@�C������ǂݍ��񂾕�����
-	 */
 	public static String getSource(File file, String charset) {
 		if (file == null) {
 			return "";
@@ -124,12 +93,6 @@ public class DiffCounterUtil {
 		}
 	}
 
-	/**
-	 * �t�@�C���̕����R�[�h���擾���܂��B
-	 *
-	 * @param file �t�@�C��
-	 * @return �t�@�C���̕����R�[�h
-	 */
 	public static String getFileEncoding(File file) {
 		String encoding = null;;
 
@@ -146,12 +109,6 @@ public class DiffCounterUtil {
 				convertToMap(folderResult).values());
 	}
 
-	/**
-	 * �w�肳�ꂽ�����t�H���_���A�����t�@�C���̃��X�g�ɕϊ����܂��B
-	 *
-	 * @param folderResult �����t�H���_
-	 * @return �����t�@�C���̃��X�g
-	 */
 	private static Map<String, DiffFileResult> convertToMap(
 			DiffFolderResult folderResult) {
 		Map<String, DiffFileResult> map = new TreeMap<String, DiffFileResult>();
