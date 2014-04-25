@@ -8,8 +8,7 @@ import java.util.List;
 
 import org.jenkinsci.plugins.stepcounter.StepCounterFileParser;
 import org.jenkinsci.plugins.stepcounter.model.FileStep;
-
-import tk.stepcounter.Util;
+import org.jenkinsci.plugins.stepcounter.util.PathUtil;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -30,7 +29,7 @@ public class CSVStepCounterFileParser implements StepCounterFileParser {
 				step.setComments(Integer.valueOf(nextLine[5]));
 				step.setTotal(Integer.valueOf(nextLine[6]));
 				step.setFile(file);
-				step.setParentDirRelativePath(Util.getParentDirRelativePath(
+				step.setParentDirRelativePath(PathUtil.getParentDirRelativePath(
 						file, rootPath));
 				steps.add(step);
 			}

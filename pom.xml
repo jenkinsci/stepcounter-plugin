@@ -19,6 +19,11 @@
 			<id>repo.jenkins-ci.org</id>
 			<url>http://repo.jenkins-ci.org/public/</url>
 		</repository>
+		<repository>
+			<id>amateras</id>
+			<name>Project Amateras Maven2 Repository</name>
+			<url>http://amateras.sourceforge.jp/mvn/</url>
+		</repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -42,11 +47,9 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.hudson</groupId>
-			<artifactId>org.suigeneris.jrcs.diff</artifactId>
-			<version>0.4.2</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<groupId>jp.sf.amateras.stepcounter</groupId>
+			<artifactId>stepcounter</artifactId>
+			<version>3.0.3</version>
 		</dependency>
 	</dependencies>
 
