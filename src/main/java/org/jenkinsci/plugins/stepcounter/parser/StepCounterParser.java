@@ -7,14 +7,14 @@ import hudson.remoting.VirtualChannel;
 import java.io.File;
 import java.io.IOException;
 
+import jp.sf.amateras.stepcounter.CountResult;
+import jp.sf.amateras.stepcounter.StepCounter;
+import jp.sf.amateras.stepcounter.StepCounterFactory;
+
 import org.jenkinsci.plugins.stepcounter.model.FileStep;
 import org.jenkinsci.plugins.stepcounter.model.StepCounterResult;
 import org.jenkinsci.plugins.stepcounter.util.FileFinder;
-
-import tk.stepcounter.CountResult;
-import tk.stepcounter.StepCounter;
-import tk.stepcounter.StepCounterFactory;
-import tk.stepcounter.Util;
+import org.jenkinsci.plugins.stepcounter.util.PathUtil;
 
 public class StepCounterParser implements FileCallable<StepCounterResult> {
     private static final long serialVersionUID = -6415863872891783891L;
@@ -105,7 +105,7 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
             CountResult countResult = counter.count(file, encoding);
             FileStep step = getFileStep(countResult);
             step.setFile(file);
-            step.setParentDirRelativePath(Util.getParentDirRelativePath(file, rootPath));
+            step.setParentDirRelativePath(PathUtil.getParentDirRelativePath(file, rootPath));
             result.addFileStep(step);
         } else {
             listener.getLogger().println("対応していないファイル形式[" + file.getName() + "]");
