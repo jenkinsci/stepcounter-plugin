@@ -74,14 +74,14 @@ public class StepCounterSetting extends AbstractDescribableImpl<StepCounterSetti
 
         public FormValidation doCheckEncoding(@QueryParameter String value) throws IOException, ServletException {
             // if(!Charset.availableCharsets().containsKey(value)){
-            // return FormValidation.error("サポートされていないエンコーディングです。");
+            // return FormValidation.error(Messages.errorUnsupportedEncoding());
             // }
             return FormValidation.ok();
         }
 
         public FormValidation doCheckKey(@QueryParameter String key) throws IOException, ServletException {
             if (key == null || "".equals(key)) {
-                return FormValidation.error("カテゴリIDを入力してください。");
+                return FormValidation.error(Messages.errorCategoryRequired());
             }
             return FormValidation.ok();
         }

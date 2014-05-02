@@ -216,14 +216,18 @@ public class StepCounterResultAction implements Action {
                     Comparable<?> key = dataset.getRowKey(row);
                     for (Entry<String, StepCounterResult> entry : stepsMap.entrySet()) {
                         if (entry.getKey().equals(key)) {
-                            return "[" + entry.getKey() + "] ビルド " + label.build.getDisplayName() + " 合計:"
-                                    + entry.getValue().getTotalSum() + " 実行:" + entry.getValue().getRunsSum()
-                                    + " コメント:" + entry.getValue().getCommentsSum() + " 空行:"
-                                    + entry.getValue().getBlanksSum();
+                            StringBuilder sb = new StringBuilder();
+                            sb.append("[").append(entry.getKey()).append("]");
+                            sb.append(" ").append(Messages.build()).append(" ").append(label.build.getDisplayName());
+                            sb.append(" ").append(Messages.total()).append(":").append(entry.getValue().getTotalSum());
+                            sb.append(" ").append(Messages.runs()).append(":").append(entry.getValue().getRunsSum());
+                            sb.append(" ").append(Messages.comments()).append(":").append(entry.getValue().getCommentsSum());
+                            sb.append(" ").append(Messages.blanks()).append(":").append(entry.getValue().getBlanksSum());
+                            return sb.toString();
                         }
                     }
 
-                    return "不明";
+                    return Messages.unknown();
                 }
             };
             plot.setRenderer(ar);

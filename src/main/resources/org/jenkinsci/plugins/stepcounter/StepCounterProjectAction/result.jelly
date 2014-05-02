@@ -1,6 +1,6 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
-	<l:layout title="ステップ数詳細">
+	<l:layout title="${%StepCounter}">
  		<st:include page="sidepanel.jelly" it="${it.result.owner}" />
 		<l:main-panel>
 	
@@ -29,13 +29,13 @@
 					<j:set var="allTotalSum" value="${allTotalSum + fileStep.total}" />
 				</j:forEach>
 			</j:forEach>	
-			<div align="left"><h1>全カテゴリ ${allFileNum} ファイルのサマリ</h1></div>
+			<div align="left"><h1>${%All Categories} ${allFileNum} ${%files Summary}</h1></div>
 			<table class="pane" id="allSummary">
 				<tr>
-					<td class="pane-header"> 全カテゴリ 実行行合計</td>
-					<td class="pane-header"> 全カテゴリ コメント行合計</td>
-					<td class="pane-header"> 全カテゴリ 空行合計</td>
-					<td class="pane-header"> 全カテゴリ 総計</td>
+					<td class="pane-header"> ${%All Categories} ${%Total Statements}</td>
+					<td class="pane-header"> ${%All Categories} ${%Total Comments}</td>
+					<td class="pane-header"> ${%All Categories} ${%Total Blanks}</td>
+					<td class="pane-header"> ${%All Categories} ${%Total Lines}</td>
 				</tr>
 				<tbody>
 						<tr>
@@ -46,7 +46,7 @@
 						</tr>
 				</tbody>
 			</table>
-			<div align="left"><h1>各カテゴリのサマリ</h1></div>
+			<div align="left"><h1>${%Category Summary}</h1></div>
 			<div id="tabs">
 				<ul>
 					<j:forEach var="iter" items="${it.result.stepsMap}">
@@ -55,13 +55,13 @@
 				</ul>
 				<j:forEach var="iter" items="${it.result.stepsMap}">
 					<div id="${iter.key}">
-						<div align="left"><h3>${iter.value.fileSteps.size()} ファイルのサマリ</h3></div>
+						<div align="left"><h3>${iter.value.fileSteps.size()} ${%files Summary}</h3></div>
 						<table class="pane" id="summary">
 							<tr>
-								<td class="pane-header"> 実行行合計</td>
-								<td class="pane-header"> コメント行合計</td>
-								<td class="pane-header"> 空行合計</td>
-								<td class="pane-header"> 総計</td>
+								<td class="pane-header"> ${%Total Statements}</td>
+								<td class="pane-header"> ${%Total Comments}</td>
+								<td class="pane-header"> ${%Total Blanks}</td>
+								<td class="pane-header"> ${%Total Lines}</td>
 							</tr>
 							<tbody>
 								<j:set var="runsSum" value="0" />
@@ -82,16 +82,16 @@
 								</tr>
 							</tbody>
 						</table>
-						<div align="left"><h3>各ファイルの詳細</h3></div>
+						<div align="left"><h3>${%File Detail}</h3></div>
 						<table class="pane" id="summary">
 							<tr>
 								<td class="pane-header"> #</td>
-								<td class="pane-header"> ファイルパス</td>
-								<td class="pane-header"> ファイル名</td>
-								<td class="pane-header"> 実行行数</td>
-								<td class="pane-header"> コメント行数</td>
-								<td class="pane-header"> 空行数</td>
-								<td class="pane-header"> 合計</td>
+								<td class="pane-header"> ${%File Path}</td>
+								<td class="pane-header"> ${%File Name}</td>
+								<td class="pane-header"> ${%Statements}</td>
+								<td class="pane-header"> ${%Comments}</td>
+								<td class="pane-header"> ${%Blanks}</td>
+								<td class="pane-header"> ${%Lines}</td>
 							</tr>
 							<tbody>
 								<j:forEach var="fileStep" items="${iter.value.fileSteps}" indexVar="index">

@@ -23,23 +23,23 @@
 					</j:forEach>
 					<tr>
 						<td>
-							<a href="stepResult">ステップ数詳細</a>
+							<a href="stepResult">${%StepCounter}</a>
 						</td>
 					</tr>
 					<tr>
-						<td> 実行行合計</td>
+						<td> ${%Statements}</td>
 						<td>${allRunsSum}</td>
-					</tr>z
+					</tr>
 					<tr>
-						<td> コメント行合計</td>
+						<td> ${%Comments}</td>
 						<td>${allCommentsSum}</td>
 					</tr>
 					<tr>
-						<td> 空行合計</td>
+						<td> ${%Blanks}</td>
 						<td>${allBlanksSum}</td>
 					</tr>
 					<tr>
-						<td> 総計</td>
+						<td> ${%Lines}</td>
 						<td>${allTotalSum}</td>
 					</tr>
 				</table>
