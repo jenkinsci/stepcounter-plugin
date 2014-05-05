@@ -32,7 +32,7 @@ public class StepCounterProjectAction implements Action {
     }
 
     public String getDisplayName() {
-        return "ステップ数";
+        return Messages.steps();
     }
 
     public String getIconFileName() {

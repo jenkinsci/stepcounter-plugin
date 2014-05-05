@@ -45,7 +45,7 @@ public class StepCounterFileParserFactory implements Serializable{
 			}
 		}
 
-		throw new PaserNotFoundException("適合するパーサーがありません。");
+		throw new PaserNotFoundException(Messages.errorParserNotFound());
 	}
 
 	private StepCounterFileParser create(Ext ext) {
@@ -57,7 +57,7 @@ public class StepCounterFileParserFactory implements Serializable{
 		default:
 			break;
 		}
-		throw new PaserNotFoundException("適合するパーサーがありません。");
+		throw new PaserNotFoundException(Messages.errorParserNotFound());
 	}
 
 }
