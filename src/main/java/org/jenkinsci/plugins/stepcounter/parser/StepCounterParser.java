@@ -1,21 +1,21 @@
 package org.jenkinsci.plugins.stepcounter.parser;
 
-import hudson.FilePath.FileCallable;
-import hudson.model.BuildListener;
-import hudson.remoting.VirtualChannel;
-
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 
 import org.jenkinsci.plugins.stepcounter.model.FileStep;
 import org.jenkinsci.plugins.stepcounter.model.StepCounterResult;
 import org.jenkinsci.plugins.stepcounter.util.FileFinder;
+import org.jenkinsci.plugins.stepcounter.util.Util;
+import org.jenkinsci.remoting.RoleChecker;
 
-import tk.stepcounter.CountResult;
-import tk.stepcounter.StepCounter;
-import tk.stepcounter.StepCounterFactory;
-import tk.stepcounter.Util;
+import hudson.FilePath.FileCallable;
+import hudson.model.BuildListener;
+import hudson.remoting.VirtualChannel;
+import jp.sf.amateras.stepcounter.CountResult;
+import jp.sf.amateras.stepcounter.StepCounter;
+import jp.sf.amateras.stepcounter.StepCounterFactory;
+
 
 public class StepCounterParser implements FileCallable<StepCounterResult> {
     private static final long serialVersionUID = -6415863872891783891L;
@@ -67,7 +67,7 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
     /**
      * Parses the specified collection of files and appends the results to the
      * provided container.
-     * 
+     *
      * @param workspace
      *            the workspace root
      * @param fileNames
@@ -123,4 +123,9 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
         step.setTotal(countResult.getNon() + countResult.getComment() + countResult.getStep());
         return step;
     }
+
+	public void checkRoles(RoleChecker checker) throws SecurityException {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
 }

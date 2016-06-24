@@ -6,12 +6,13 @@ import java.io.IOException;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
+import org.jenkinsci.remoting.RoleChecker;
 
 import hudson.FilePath.FileCallable;
 import hudson.remoting.VirtualChannel;
 
 /**
- * 
+ *
  * @author Takuma Ishibashi
  */
 public class FileFinder implements FileCallable<String[]> {
@@ -22,7 +23,7 @@ public class FileFinder implements FileCallable<String[]> {
 
     /**
      * Creates a new instance of {@link FileFinder}.
-     * 
+     *
      * @param pattern
      *            the ant file pattern to scan for
      * @param filePatternExclude
@@ -35,7 +36,7 @@ public class FileFinder implements FileCallable<String[]> {
     /**
      * Returns an array with the filenames of the specified file pattern that
      * have been found in the workspace.
-     * 
+     *
      * @param workspace
      *            root directory of the workspace
      * @param channel
@@ -51,7 +52,7 @@ public class FileFinder implements FileCallable<String[]> {
     /**
      * Returns an array with the filenames of the specified file pattern that
      * have been found in the workspace.
-     * 
+     *
      * @param workspace
      *            root directory of the workspace
      * @return the filenames of all found files
@@ -70,4 +71,9 @@ public class FileFinder implements FileCallable<String[]> {
             return new String[0];
         }
     }
+
+	public void checkRoles(RoleChecker checker) throws SecurityException {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
 }

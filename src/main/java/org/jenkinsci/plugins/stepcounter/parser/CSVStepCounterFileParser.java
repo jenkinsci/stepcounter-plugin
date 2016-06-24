@@ -8,8 +8,7 @@ import java.util.List;
 
 import org.jenkinsci.plugins.stepcounter.StepCounterFileParser;
 import org.jenkinsci.plugins.stepcounter.model.FileStep;
-
-import tk.stepcounter.Util;
+import org.jenkinsci.plugins.stepcounter.util.Util;
 
 import au.com.bytecode.opencsv.CSVReader;
 
