@@ -9,7 +9,7 @@
         <img src="stepResult/trend" lazymap="stepResult/trendMap" alt="ステップ数推移"/>
       </div>
       <div style="text-align:right">
-        <a href="stepResult/?width=800&amp;height=600">${%enlarge}</a>
+        <a href="stepResult/trend?width=800&amp;height=600">${%enlarge}</a>
       </div>
     </div>
 </j:jelly>

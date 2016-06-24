@@ -2,6 +2,8 @@ package org.jenkinsci.plugins.stepcounter.parser;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jenkinsci.plugins.stepcounter.model.FileStep;
 import org.jenkinsci.plugins.stepcounter.model.StepCounterResult;
@@ -14,7 +16,6 @@ import hudson.model.BuildListener;
 import hudson.remoting.VirtualChannel;
 import jp.sf.amateras.stepcounter.CountResult;
 import jp.sf.amateras.stepcounter.StepCounter;
-import jp.sf.amateras.stepcounter.StepCounterFactory;
 
 
 public class StepCounterParser implements FileCallable<StepCounterResult> {
@@ -29,12 +30,17 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 
     private BuildListener listener;
 
-    public StepCounterParser(final String filePattern, final String filePatternExclude, final String encoding,
-            final BuildListener listener) {
+    private List<CountResult> _results = new ArrayList<CountResult>();
+
+	private String category;
+
+	public StepCounterParser(final String filePattern, final String filePatternExclude, final String encoding,
+            final BuildListener listener, String category) {
         this.filePattern = filePattern;
         this.filePatternExclude = filePatternExclude;
         this.encoding = encoding;
         this.listener = listener;
+        this.category = category;
     }
 
     public StepCounterResult invoke(final File workspace, final VirtualChannel channel) throws IOException {
@@ -43,23 +49,23 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
             String[] fileNames = new FileFinder(filePattern, filePatternExclude).find(workspace);
 
             if (fileNames.length == 0) {
-            	listener.getLogger().println("ファイルが見つかりませんでした。");
+            	listener.getLogger().println("[stepcounter] ファイルが見つかりませんでした。");
             } else {
-                listener.getLogger().println("Parsing " + fileNames.length + " files in " + workspace.getAbsolutePath());
+                listener.getLogger().println("[stepcounter] Parsing " + fileNames.length + " files in " + workspace.getAbsolutePath());
                 parseFiles(workspace, fileNames, result);
             }
         } catch (InterruptedException exception) {
             listener.getLogger().println("Parsing has been canceled.");
         }
 
-        listener.getLogger().println("解析完了:" + result.getFileSteps().size() + "ファイル");
+        listener.getLogger().println("[stepcounter] 解析完了:" + result.getFileSteps().size() + "ファイル");
 
         long total = 0;
         for (Object oStep : result.getFileSteps()) {
             FileStep step = (FileStep) oStep;
             total += step.getRuns();
         }
-        listener.getLogger().println("実行行合計[" + total + "]");
+        listener.getLogger().println("[stepcounter] 実行行合計[" + total + "]");
 
         return result;
     }
@@ -100,7 +106,7 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 
     private void parseFile(final File file, final StepCounterResult result, final String rootPath) throws IOException {
         listener.getLogger().println("[stepcounter] " + file.getAbsolutePath());
-        StepCounter counter = StepCounterFactory.getCounter(file.getName());
+        StepCounter counter = OriginalStepCounterFactory.getCounter(file);
         if (counter != null) {
 
             CountResult countResult = counter.count(file, encoding);
@@ -108,8 +114,10 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
             step.setFile(file);
             step.setParentDirRelativePath(Util.getParentDirRelativePath(file, rootPath));
             result.addFileStep(step);
+            countResult.setCategory(category);
+            _results.add(countResult);
         } else {
-            listener.getLogger().println("対応していないファイル形式[" + file.getName() + "]");
+            listener.getLogger().println("[stepcounter] 対応していないファイル形式[" + file.getName() + "]");
         }
     }
 
@@ -128,4 +136,10 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 		// TODO 自動生成されたメソッド・スタブ
 
 	}
+
+    public List<CountResult> getCountResults() {
+		return _results;
+	}
+
+
 }

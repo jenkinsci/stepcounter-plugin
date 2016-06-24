@@ -11,38 +11,43 @@
 				</a>
 			</td>
 			<td>
-				<table>
-					<j:forEach var="iter" items="${it.previousResult.stepsMap}">
-						<j:set var="allFileNum" value="${allFileNum + iter.value.fileSteps.size()}" />
-						<j:forEach var="fileStep" items="${iter.value.fileSteps}">
-							<j:set var="allRunsSum" value="${allRunsSum + fileStep.runs}" />
-							<j:set var="allCommentsSum" value="${allCommentsSum + fileStep.comments}" />
-							<j:set var="allBlanksSum" value="${allBlanksSum + fileStep.blanks}" />
-							<j:set var="allTotalSum" value="${allTotalSum + fileStep.total}" />
+				<j:if test="${!empty(it.previousResult)}">
+					<table>
+						<j:forEach var="iter" items="${it.previousResult.stepsMap}">
+							<j:set var="allFileNum" value="${allFileNum + iter.value.fileSteps.size()}" />
+							<j:forEach var="fileStep" items="${iter.value.fileSteps}">
+								<j:set var="allRunsSum" value="${allRunsSum + fileStep.runs}" />
+								<j:set var="allCommentsSum" value="${allCommentsSum + fileStep.comments}" />
+								<j:set var="allBlanksSum" value="${allBlanksSum + fileStep.blanks}" />
+								<j:set var="allTotalSum" value="${allTotalSum + fileStep.total}" />
+							</j:forEach>
 						</j:forEach>
-					</j:forEach>
-					<tr>
-						<td>
-							<a href="stepResult">ステップ数詳細</a>
-						</td>
-					</tr>
-					<tr>
-						<td> 実行行合計</td>
-						<td>${allRunsSum}</td>
-					</tr>z
-					<tr>
-						<td> コメント行合計</td>
-						<td>${allCommentsSum}</td>
-					</tr>
-					<tr>
-						<td> 空行合計</td>
-						<td>${allBlanksSum}</td>
-					</tr>
-					<tr>
-						<td> 総計</td>
-						<td>${allTotalSum}</td>
-					</tr>
-				</table>
+						<tr>
+							<td>
+								<a href="stepResult">ステップ数詳細</a>
+							</td>
+						</tr>
+						<tr>
+							<td> 実行行合計</td>
+							<td style="text-align: right;">${allRunsSum}</td>
+						</tr>
+						<tr>
+							<td> コメント行合計</td>
+							<td style="text-align: right;">${allCommentsSum}</td>
+						</tr>
+						<tr>
+							<td> 空行合計</td>
+							<td style="text-align: right;">${allBlanksSum}</td>
+						</tr>
+						<tr>
+							<td> 総計</td>
+							<td style="text-align: right;">${allTotalSum}</td>
+						</tr>
+					</table>
+				</j:if>
+				<j:if test="${empty(it.previousResult)}">
+					ステップ数 測定結果無し
+				</j:if>
 			</td>
 		</tr>
 	</table>

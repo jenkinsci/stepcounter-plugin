@@ -111,7 +111,10 @@ public class StepCounterResultAction implements Action {
         }
 
         AbstractBuild<?, ?> build = getBuild();
-        Calendar t = build.getTimestamp();
+        Calendar t = Calendar.getInstance();
+        if(build != null){
+            t = build.getTimestamp();
+        }
 
         String w = Util.fixEmptyAndTrim(req.getParameter("width"));
         String h = Util.fixEmptyAndTrim(req.getParameter("height"));
@@ -249,6 +252,7 @@ public class StepCounterResultAction implements Action {
     }
 
     private StepCounterResultAction getPreviousResult(AbstractBuild<?, ?> start) {
+    	if(start ==null) return null;
         AbstractBuild<?, ?> b = start;
         while (true) {
             b = b.getPreviousBuild();
