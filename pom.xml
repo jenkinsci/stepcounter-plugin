@@ -56,7 +56,7 @@
 	</developers>
 	<scm>
 		<connection>scm:git:https://github.com/jenkinsci/stepcounter-plugin.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/stepcounter-plugin.git</developerConnection>
+		<developerConnection>scm:git:https://github.com/jenkinsci/stepcounter-plugin.git</developerConnection>
 		<url>https://github.com/jenkinsci/stepcounter-plugin.git</url>
 	  <tag>stepcounter-1.4.0</tag>
   </scm>
