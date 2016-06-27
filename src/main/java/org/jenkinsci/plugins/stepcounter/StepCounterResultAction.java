@@ -1,16 +1,5 @@
 package org.jenkinsci.plugins.stepcounter;
 
-import hudson.Util;
-import hudson.model.Action;
-import hudson.model.Result;
-import hudson.model.AbstractBuild;
-import hudson.util.ChartUtil;
-import hudson.util.ChartUtil.NumberOnlyBuildLabel;
-import hudson.util.DataSetBuilder;
-import hudson.util.Graph;
-import hudson.util.ShiftedCategoryAxis;
-import hudson.util.StackedAreaRenderer2;
-
 import java.awt.Color;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -34,6 +23,18 @@ import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
+
+import hudson.Util;
+import hudson.model.AbstractBuild;
+import hudson.model.Action;
+import hudson.model.Result;
+import hudson.model.Run;
+import hudson.util.ChartUtil;
+import hudson.util.ChartUtil.NumberOnlyBuildLabel;
+import hudson.util.DataSetBuilder;
+import hudson.util.Graph;
+import hudson.util.ShiftedCategoryAxis;
+import hudson.util.StackedAreaRenderer2;
 
 public class StepCounterResultAction implements Action {
 
@@ -110,7 +111,10 @@ public class StepCounterResultAction implements Action {
         }
 
         AbstractBuild<?, ?> build = getBuild();
-        Calendar t = build.getTimestamp();
+        Calendar t = Calendar.getInstance();
+        if(build != null){
+            t = build.getTimestamp();
+        }
 
         String w = Util.fixEmptyAndTrim(req.getParameter("width"));
         String h = Util.fixEmptyAndTrim(req.getParameter("height"));
@@ -125,7 +129,7 @@ public class StepCounterResultAction implements Action {
 
                 for (StepCounterResultAction a = obj; a != null; a = a.getPreviousResult()) {
                     Map<String, StepCounterResult> stepsMap = a.getStepsMap();
-                    NumberOnlyBuildLabel label = new NumberOnlyBuildLabel(a.getBuild());
+                    NumberOnlyBuildLabel label = new NumberOnlyBuildLabel((Run<?,?>)a.getBuild());
                     for (Entry<String, StepCounterResult> entry : stepsMap.entrySet()) {
                         dsb.add(entry.getValue().getTotalSum(), entry.getKey(), label);
                     }
@@ -252,6 +256,7 @@ public class StepCounterResultAction implements Action {
     }
 
     private StepCounterResultAction getPreviousResult(AbstractBuild<?, ?> start) {
+    	if(start ==null) return null;
         AbstractBuild<?, ?> b = start;
         while (true) {
             b = b.getPreviousBuild();
@@ -264,7 +269,7 @@ public class StepCounterResultAction implements Action {
                 return r.getResult();
         }
     }
-    
+
     public AbstractBuild<?, ?> getOwner(){
         return this.owner;
     }

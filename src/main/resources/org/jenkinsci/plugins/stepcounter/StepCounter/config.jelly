@@ -1,5 +1,17 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-  <f:entry title="${%Specify files to count lines}" field="settings">
-  	<f:repeatableProperty field="settings" />
-  </f:entry>
+
+	<f:block>
+		<f:optionalBlock title="${%want2output}" name="fileSetting" checked="${instance.isOutput}">
+			<f:entry title="${%outputfile}" field="outputFile">
+				<f:textbox name="outputFile" />
+			</f:entry>
+			<f:entry name="format" title="${%outputFormat}" field="outputFormat">
+				<f:select/>
+			</f:entry>
+		</f:optionalBlock>
+		<br/>
+	 	<f:entry title="${%Specify files to count lines}" field="settings">
+	 		<f:repeatableProperty field="settings" />
+	 	</f:entry>
+	</f:block>
 </j:jelly>
