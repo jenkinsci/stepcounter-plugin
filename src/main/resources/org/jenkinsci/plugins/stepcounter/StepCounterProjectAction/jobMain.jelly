@@ -24,29 +24,29 @@
 						</j:forEach>
 						<tr>
 							<td>
-								<a href="stepResult">ステップ数詳細</a>
+							<a href="stepResult">${%StepCounter}</a>
 							</td>
 						</tr>
 						<tr>
-							<td> 実行行合計</td>
+							<td> ${%Statements}</td>
 							<td style="text-align: right;">${allRunsSum}</td>
 						</tr>
 						<tr>
-							<td> コメント行合計</td>
+							<td> ${%Comments}</td>
 							<td style="text-align: right;">${allCommentsSum}</td>
 						</tr>
 						<tr>
-							<td> 空行合計</td>
+							<td> ${%Blanks}</td>
 							<td style="text-align: right;">${allBlanksSum}</td>
 						</tr>
 						<tr>
-							<td> 総計</td>
+							<td> ${%Lines}</td>
 							<td style="text-align: right;">${allTotalSum}</td>
 						</tr>
 					</table>
 				</j:if>
 				<j:if test="${empty(it.previousResult)}">
-					ステップ数 測定結果無し
+					${%No Results}
 				</j:if>
 			</td>
 		</tr>

@@ -81,10 +81,10 @@ public class StepCounter extends Publisher {
 			}
 			for (StepCounterSetting setting : getSettings()) {
 				String encoding = setting.getEncoding();
-				listener.getLogger().println("[stepcounter] カテゴリは[" + setting.getKey() + "]");
-				listener.getLogger().println("[stepcounter] ファイルのパターンは[" + setting.getFilePattern() + "]");
-				listener.getLogger().println("[stepcounter] ファイルの除外パターンは[" + setting.getFilePatternExclude() + "]");
-				listener.getLogger().println("[stepcounter] ファイルのエンコーディングは[" + encoding + "]");
+				listener.getLogger().println("[stepcounter] category [" + setting.getKey() + "]");
+				listener.getLogger().println("[stepcounter] includes [" + setting.getFilePattern() + "]");
+				listener.getLogger().println("[stepcounter] excludes [" + setting.getFilePatternExclude() + "]");
+				listener.getLogger().println("[stepcounter] encoding [" + encoding + "]");
 				StepCounterParser finder = new StepCounterParser(setting.getFilePattern(),
 						setting.getFilePatternExclude(), encoding, listener, setting.getKey());
 				StepCounterResult result = build.getWorkspace().act(finder);
@@ -93,7 +93,7 @@ public class StepCounter extends Publisher {
 			}
 
 			if (isOutput &&  getOutputFile() != null && !"".equals(getOutputFile())) {
-				listener.getLogger().println("[stepcounter] ファイルに出力");
+				listener.getLogger().println("[stepcounter] output to file");
 				List<CountResult> results = new ArrayList<CountResult>();
 				for (Iterator<StepCounterParser> iterator = parsers.iterator(); iterator.hasNext();) {
 					StepCounterParser stepCounterParser = (StepCounterParser) iterator.next();
@@ -108,7 +108,7 @@ public class StepCounter extends Publisher {
 				try {
 					File file = new File(new File(build.getWorkspace().toURI()), filename);
 					listener.getLogger()
-							.println("[stepcounter] " + format + "形式の" + file.getAbsolutePath() + "を作成します。");
+							.println("[stepcounter] output to [" + file.getAbsolutePath() +"] in ["+ format + "] format");
 					out = new BufferedOutputStream(new FileOutputStream(file));
 					out.write(output);
 					out.flush();
@@ -144,6 +144,7 @@ public class StepCounter extends Publisher {
 
 		public FormValidation doCheckSettings(@QueryParameter List<StepCounterSetting> settings) throws IOException, ServletException {
 			if (settings == null) {
+				// TODO try to add check.
 				return FormValidation.error("情報");
 			}
 			return FormValidation.ok();

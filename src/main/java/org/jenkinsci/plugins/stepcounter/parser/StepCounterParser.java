@@ -5,10 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jenkinsci.plugins.stepcounter.Messages;
 import org.jenkinsci.plugins.stepcounter.model.FileStep;
 import org.jenkinsci.plugins.stepcounter.model.StepCounterResult;
 import org.jenkinsci.plugins.stepcounter.util.FileFinder;
-import org.jenkinsci.plugins.stepcounter.util.Util;
+import org.jenkinsci.plugins.stepcounter.util.PathUtil;
 import org.jenkinsci.remoting.RoleChecker;
 
 import hudson.FilePath.FileCallable;
@@ -49,7 +50,7 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
             String[] fileNames = new FileFinder(filePattern, filePatternExclude).find(workspace);
 
             if (fileNames.length == 0) {
-            	listener.getLogger().println("[stepcounter] ファイルが見つかりませんでした。");
+            	listener.getLogger().println("[stepcounter] "+ Messages.filenotfound());
             } else {
                 listener.getLogger().println("[stepcounter] Parsing " + fileNames.length + " files in " + workspace.getAbsolutePath());
                 parseFiles(workspace, fileNames, result);
@@ -58,14 +59,14 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
             listener.getLogger().println("Parsing has been canceled.");
         }
 
-        listener.getLogger().println("[stepcounter] 解析完了:" + result.getFileSteps().size() + "ファイル");
+        listener.getLogger().println("[stepcounter] Parse completed:" + result.getFileSteps().size() + " files");
 
         long total = 0;
         for (Object oStep : result.getFileSteps()) {
             FileStep step = (FileStep) oStep;
             total += step.getRuns();
         }
-        listener.getLogger().println("[stepcounter] 実行行合計[" + total + "]");
+        listener.getLogger().println("[stepcounter] total[" + total + "]");
 
         return result;
     }
@@ -90,12 +91,12 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
             File file = new File(workspace, fileName);
 
             if (!file.canRead()) {
-                String message = "対象ファイルが読み込めません[" + file.getAbsolutePath() + "]";
+                String message = "can't load [" + file.getAbsolutePath() + "]";
                 result.addErrorMessage(message);
                 continue;
             }
             if (file.length() <= 0) {
-                String message = "対象のファイルのパスが不正です。[" + file.getAbsolutePath() + "]";
+                String message = "ilegal file path [" + file.getAbsolutePath() + "]";
                 result.addErrorMessage(message);
                 continue;
             }
@@ -112,12 +113,12 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
             CountResult countResult = counter.count(file, encoding);
             FileStep step = getFileStep(countResult);
             step.setFile(file);
-            step.setParentDirRelativePath(Util.getParentDirRelativePath(file, rootPath));
+            step.setParentDirRelativePath(PathUtil.getParentDirRelativePath(file, rootPath));
             result.addFileStep(step);
             countResult.setCategory(category);
             _results.add(countResult);
         } else {
-            listener.getLogger().println("[stepcounter] 対応していないファイル形式[" + file.getName() + "]");
+            listener.getLogger().println("[stepcounter] no applicable file type [" + file.getName() + "]");
         }
     }
 

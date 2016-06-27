@@ -10,7 +10,7 @@
 			</f:entry>
 		</f:optionalBlock>
 		<br/>
-	 	<f:entry title="${%title}" field="settings">
+	 	<f:entry title="${%Specify files to count lines}" field="settings">
 	 		<f:repeatableProperty field="settings" />
 	 	</f:entry>
 	</f:block>

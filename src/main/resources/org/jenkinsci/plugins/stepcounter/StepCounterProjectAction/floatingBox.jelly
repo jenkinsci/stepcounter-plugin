@@ -3,10 +3,10 @@
     <!-- at least two data points are required for a trend report -->
     <div align="right">
       <div class="test-trend-caption">
-        ステップ数の推移
+        ${%StepCounter Trend}
       </div>
       <div>
-        <img src="stepResult/trend" lazymap="stepResult/trendMap" alt="ステップ数推移"/>
+        <img src="stepResult/trend" lazymap="stepResult/trendMap" alt="${%StepCounter Trend}"/>
       </div>
       <div style="text-align:right">
         <a href="stepResult/trend?width=800&amp;height=600">${%enlarge}</a>

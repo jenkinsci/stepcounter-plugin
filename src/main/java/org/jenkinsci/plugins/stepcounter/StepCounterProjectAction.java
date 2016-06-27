@@ -2,6 +2,8 @@ package org.jenkinsci.plugins.stepcounter;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
@@ -31,8 +33,7 @@ public class StepCounterProjectAction implements Action {
 
 	public String getDisplayName() {
 		if (resultExists()) {
-			return "ステップ数";
-
+			return Messages.steps();
 		} else {
 			return null;
 		}
@@ -40,10 +41,12 @@ public class StepCounterProjectAction implements Action {
 	}
 
 	private boolean resultExists() {
-		StepCounterResultAction previousResult = getPreviousResult();
-
-		if(previousResult == null || previousResult.getStepsMap().isEmpty()) return false;
-
+		if (result != null){
+			return true;
+		}else{
+			StepCounterResultAction previousResult = getPreviousResult();
+			if(previousResult == null || previousResult.getStepsMap().isEmpty()) return false;
+		}
 		return true;
 	}
 
@@ -56,11 +59,7 @@ public class StepCounterProjectAction implements Action {
 	}
 
 	public String getUrlName() {
-		if (resultExists()) {
 			return STEPCOUNTERPROJECTACTION_PATH;
-		} else {
-			return null;
-		}
 	}
 
 	public void doTrend(StaplerRequest req, StaplerResponse rsp) throws IOException {
@@ -76,7 +75,7 @@ public class StepCounterProjectAction implements Action {
 		if (a != null)
 			a.createClickableMap(req, rsp);
 		else
-			new StepCounterResultAction(null).createGraph(req, rsp);
+            rsp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 	}
 
 	public StepCounterResultAction getPreviousResult() {
