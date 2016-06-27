@@ -13,11 +13,13 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
+import org.jenkinsci.plugins.stepcounter.format.OriginalFormatterFactory;
 import org.jenkinsci.plugins.stepcounter.model.StepCounterResult;
 import org.jenkinsci.plugins.stepcounter.parser.StepCounterParser;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
+import hudson.EnvVars;
 import hudson.Extension;
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
@@ -25,12 +27,12 @@ import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.BuildListener;
 import hudson.model.Descriptor;
+import hudson.model.Result;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
 import jp.sf.amateras.stepcounter.CountResult;
-import jp.sf.amateras.stepcounter.format.FormatterFactory;
 import jp.sf.amateras.stepcounter.format.ResultFormatter;
 
 public class StepCounter extends Publisher {
@@ -79,16 +81,21 @@ public class StepCounter extends Publisher {
 			if (getSettings() == null) {
 				return false;
 			}
+			EnvVars vars = build.getEnvironment(listener);
+
 			for (StepCounterSetting setting : getSettings()) {
-				String encoding = setting.getEncoding();
-				listener.getLogger().println("[stepcounter] category [" + setting.getKey() + "]");
-				listener.getLogger().println("[stepcounter] includes [" + setting.getFilePattern() + "]");
-				listener.getLogger().println("[stepcounter] excludes [" + setting.getFilePatternExclude() + "]");
+				String encoding = vars.expand(setting.getEncoding());
+				String category = vars.expand(setting.getKey());
+				String includes = vars.expand(setting.getFilePattern());
+				String excludes = vars.expand(setting.getFilePatternExclude());
+				listener.getLogger().println("[stepcounter] category [" + category + "]");
+				listener.getLogger().println("[stepcounter] includes [" + includes + "]");
+				listener.getLogger().println("[stepcounter] excludes [" + excludes + "]");
 				listener.getLogger().println("[stepcounter] encoding [" + encoding + "]");
-				StepCounterParser finder = new StepCounterParser(setting.getFilePattern(),
-						setting.getFilePatternExclude(), encoding, listener, setting.getKey());
+				StepCounterParser finder = new StepCounterParser(includes,
+						excludes, encoding, listener, category);
 				StepCounterResult result = build.getWorkspace().act(finder);
-				resultAction.putStepsMap(setting.getKey(), result);
+				resultAction.putStepsMap(category, result);
 				parsers.add(finder);
 			}
 
@@ -100,9 +107,9 @@ public class StepCounter extends Publisher {
 					results.addAll(stepCounterParser.getCountResults());
 				}
 
-				String format = getOutputFormat();
-				String filename = getOutputFile();
-				ResultFormatter formatter = FormatterFactory.getFormatter(format);
+				String format = vars.expand(getOutputFormat());
+				String filename = vars.expand(getOutputFile());
+				ResultFormatter formatter = OriginalFormatterFactory.getFormatter(format);
 				byte[] output = formatter.format(results.toArray(new CountResult[results.size()]));
 				OutputStream out = null;
 				try {
@@ -122,6 +129,7 @@ public class StepCounter extends Publisher {
 			}
 
 		} catch (Exception e) {
+			build.setResult(Result.FAILURE);
 			listener.error(e.getMessage());
 			e.printStackTrace();
 		}
