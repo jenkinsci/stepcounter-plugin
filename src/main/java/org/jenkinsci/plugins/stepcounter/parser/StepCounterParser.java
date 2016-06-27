@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jenkinsci.plugins.stepcounter.Messages;
+import org.jenkinsci.plugins.stepcounter.format.OriginalCountResult;
 import org.jenkinsci.plugins.stepcounter.model.FileStep;
 import org.jenkinsci.plugins.stepcounter.model.StepCounterResult;
 import org.jenkinsci.plugins.stepcounter.util.FileFinder;
@@ -31,7 +32,7 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 
     private BuildListener listener;
 
-    private List<CountResult> _results = new ArrayList<CountResult>();
+    private List<OriginalCountResult> _results = new ArrayList<OriginalCountResult>();
 
 	private String category;
 
@@ -113,10 +114,14 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
             CountResult countResult = counter.count(file, encoding);
             FileStep step = getFileStep(countResult);
             step.setFile(file);
-            step.setParentDirRelativePath(PathUtil.getParentDirRelativePath(file, rootPath));
+
+            String relativePath = PathUtil.getParentDirRelativePath(file, rootPath);
+            step.setParentDirRelativePath(relativePath);
             result.addFileStep(step);
             countResult.setCategory(category);
-            _results.add(countResult);
+
+            OriginalCountResult originalCountResult = new OriginalCountResult(countResult, relativePath);
+            _results.add(originalCountResult);
         } else {
             listener.getLogger().println("[stepcounter] no applicable file type [" + file.getName() + "]");
         }
@@ -138,7 +143,7 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 
 	}
 
-    public List<CountResult> getCountResults() {
+    public List<OriginalCountResult> getCountResults() {
 		return _results;
 	}
 
