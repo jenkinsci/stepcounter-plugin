@@ -1,9 +1,11 @@
 Jenkins StepCounter Plugin
 =======================================
-[![Build Status](https://buildhive.cloudbees.com/job/jenkinsci/job/stepcounter-plugin/badge/icon)](https://buildhive.cloudbees.com/job/jenkinsci/job/stepcounter-plugin/)
+[![Build Status](https://jenkins.ci.cloudbees.com/job/plugins/job/stepcounter-plugin/badge/icon)](https://jenkins.ci.cloudbees.com/job/plugins/job/stepcounter-plugin/)
 
 This plugin counts source steps.
 This plugin bundles [StepCounter](https://github.com/takezoe/stepcounter).
+
+Build by [CloudBees](https://jenkins.ci.cloudbees.com/job/plugins/job/stepcounter-plugin/)
 
 Author
 ---------------
