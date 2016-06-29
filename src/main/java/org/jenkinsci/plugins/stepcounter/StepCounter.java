@@ -16,8 +16,10 @@ import javax.servlet.ServletException;
 import org.jenkinsci.plugins.stepcounter.format.OriginalFormatterFactory;
 import org.jenkinsci.plugins.stepcounter.model.StepCounterResult;
 import org.jenkinsci.plugins.stepcounter.parser.StepCounterParser;
+import org.jenkinsci.plugins.stepcounter.parser.StepCounterParserSetting;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.StaplerRequest;
 
 import hudson.EnvVars;
 import hudson.Extension;
@@ -34,6 +36,8 @@ import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
 import jp.sf.amateras.stepcounter.CountResult;
 import jp.sf.amateras.stepcounter.format.ResultFormatter;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 public class StepCounter extends Publisher {
 
@@ -59,7 +63,7 @@ public class StepCounter extends Publisher {
 			this.outputFile = "";
 			this.outputFormat = null;
 		}
-		if(settings == null){
+		if (settings == null) {
 			throw new Exception("no step count setting exists.");
 		}
 		this.settings = settings;
@@ -92,14 +96,14 @@ public class StepCounter extends Publisher {
 				listener.getLogger().println("[stepcounter] includes [" + includes + "]");
 				listener.getLogger().println("[stepcounter] excludes [" + excludes + "]");
 				listener.getLogger().println("[stepcounter] encoding [" + encoding + "]");
-				StepCounterParser finder = new StepCounterParser(includes,
-						excludes, encoding, listener, category);
+				StepCounterParser finder = new StepCounterParser(includes, excludes, encoding, listener, category,
+						DESCRIPTOR.getCountFormats());
 				StepCounterResult result = build.getWorkspace().act(finder);
 				resultAction.putStepsMap(category, result);
 				parsers.add(finder);
 			}
 
-			if (isOutput &&  getOutputFile() != null && !"".equals(getOutputFile())) {
+			if (isOutput && getOutputFile() != null && !"".equals(getOutputFile())) {
 				listener.getLogger().println("[stepcounter] output to file");
 				List<CountResult> results = new ArrayList<CountResult>();
 				for (Iterator<StepCounterParser> iterator = parsers.iterator(); iterator.hasNext();) {
@@ -114,8 +118,8 @@ public class StepCounter extends Publisher {
 				OutputStream out = null;
 				try {
 					File file = new File(new File(build.getWorkspace().toURI()), filename);
-					listener.getLogger()
-							.println("[stepcounter] output to [" + file.getAbsolutePath() +"] in ["+ format + "] format");
+					listener.getLogger().println(
+							"[stepcounter] output to [" + file.getAbsolutePath() + "] in [" + format + "] format");
 					out = new BufferedOutputStream(new FileOutputStream(file));
 					out.write(output);
 					out.flush();
@@ -139,8 +143,81 @@ public class StepCounter extends Publisher {
 
 	public static final class DescriptorImpl extends Descriptor<Publisher> {
 
+		private List<StepCounterParserSetting> countFormats;
+
 		public boolean isApplicable(Class<? extends AbstractProject<?, ?>> aClass) {
 			return true;
+		}
+
+		public DescriptorImpl() {
+			super();
+			load();
+		}
+
+		@Override
+		public boolean configure(StaplerRequest req, JSONObject json) throws hudson.model.Descriptor.FormException {
+			if (countFormats == null)
+				countFormats = new ArrayList<StepCounterParserSetting>();
+
+			if (json.containsKey("countFormats")) {
+				System.out.println(json.get("countFormats"));
+
+				if (json.optJSONArray("countFormats") != null) {
+					JSONArray list = json.getJSONArray("countFormats");
+					System.out.println(list.size());
+					for (int i = 0; i < list.size(); i++) {
+						JSONObject o = (JSONObject) list.get(i);
+						countFormats.add(getSetting(o));
+					}
+				} else {
+					JSONObject countFormat = json.getJSONObject("countFormats");
+					countFormats.add(getSetting(countFormat));
+				}
+			}
+			save();
+			return super.configure(req, json);
+		}
+
+		private StepCounterParserSetting getSetting(JSONObject o) {
+			String fileType = null;
+			String fileExtension = null;
+			String lineComment1 = null;
+			String lineComment2 = null;
+			String lineComment3 = null;
+			String areaComment1 = null;
+			String areaComment2 = null;
+			String areaComment3 = null;
+			String areaComment4 = null;
+			if (o.containsKey("fileType")) {
+				fileType = o.getString("fileType");
+			}
+			if (o.containsKey("fileExtension")) {
+				fileExtension = o.getString("fileExtension");
+			}
+			if (o.containsKey("lineComment1")) {
+				lineComment1 = o.getString("lineComment1");
+			}
+			if (o.containsKey("lineComment2")) {
+				lineComment2 = o.getString("lineComment2");
+			}
+			if (o.containsKey("lineComment3")) {
+				lineComment3 = o.getString("lineComment3");
+			}
+			if (o.containsKey("areaComment1")) {
+				areaComment1 = o.getString("areaComment1");
+			}
+			if (o.containsKey("areaComment2")) {
+				areaComment2 = o.getString("areaComment2");
+			}
+			if (o.containsKey("areaComment3")) {
+				areaComment3 = o.getString("areaComment3");
+			}
+			if (o.containsKey("areaComment4")) {
+				areaComment4 = o.getString("areaComment4");
+			}
+			System.out.println(fileType + ":" + fileExtension + "" + lineComment1 + ":" + areaComment1);
+			return new StepCounterParserSetting(fileType, fileExtension, lineComment1, lineComment2, lineComment3,
+					areaComment1, areaComment2, areaComment3, areaComment4);
 		}
 
 		/**
@@ -150,7 +227,8 @@ public class StepCounter extends Publisher {
 			return "Step Counter";
 		}
 
-		public FormValidation doCheckSettings(@QueryParameter List<StepCounterSetting> settings) throws IOException, ServletException {
+		public FormValidation doCheckSettings(@QueryParameter List<StepCounterSetting> settings)
+				throws IOException, ServletException {
 			if (settings == null) {
 				// TODO try to add check.
 				return FormValidation.error("情報");
@@ -166,6 +244,21 @@ public class StepCounter extends Publisher {
 			items.add("JSON", "json");
 			return items;
 		}
+
+		// @Override
+		// public hudson.model.Descriptor.PropertyType getPropertyType(Object
+		// instance, String field) {
+		// return super.getPropertyType(instance, field);
+		// }
+
+		public List<StepCounterParserSetting> getCountFormats() {
+			return countFormats;
+		}
+
+		public void setCountFormats(List<StepCounterParserSetting> countFormats) {
+			this.countFormats = countFormats;
+		}
+
 	}
 
 	public BuildStepMonitor getRequiredMonitorService() {
@@ -188,4 +281,5 @@ public class StepCounter extends Publisher {
 	public boolean isOutput() {
 		return isOutput;
 	}
+
 }
