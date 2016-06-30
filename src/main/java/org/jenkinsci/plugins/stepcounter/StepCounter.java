@@ -156,15 +156,12 @@ public class StepCounter extends Publisher {
 
 		@Override
 		public boolean configure(StaplerRequest req, JSONObject json) throws hudson.model.Descriptor.FormException {
-			if (countFormats == null)
-				countFormats = new ArrayList<StepCounterParserSetting>();
+			countFormats = new ArrayList<StepCounterParserSetting>();
 
 			if (json.containsKey("countFormats")) {
-				System.out.println(json.get("countFormats"));
 
 				if (json.optJSONArray("countFormats") != null) {
 					JSONArray list = json.getJSONArray("countFormats");
-					System.out.println(list.size());
 					for (int i = 0; i < list.size(); i++) {
 						JSONObject o = (JSONObject) list.get(i);
 						countFormats.add(getSetting(o));
@@ -215,7 +212,6 @@ public class StepCounter extends Publisher {
 			if (o.containsKey("areaComment4")) {
 				areaComment4 = o.getString("areaComment4");
 			}
-			System.out.println(fileType + ":" + fileExtension + "" + lineComment1 + ":" + areaComment1);
 			return new StepCounterParserSetting(fileType, fileExtension, lineComment1, lineComment2, lineComment3,
 					areaComment1, areaComment2, areaComment3, areaComment4);
 		}

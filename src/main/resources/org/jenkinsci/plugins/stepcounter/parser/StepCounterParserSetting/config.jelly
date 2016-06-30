@@ -5,25 +5,25 @@
   <f:entry title="${%File Extension}" field="fileExtension">
     <f:textbox />
   </f:entry>
-  <f:entry title="${%Single Line Comment}" field="lineComment1">
+  <f:entry title="${%Single Line Comment}1" field="lineComment1">
     <f:textbox />
   </f:entry>
-  <f:entry title="${%Single Line Comment}" field="lineComment2">
+  <f:entry title="${%Single Line Comment}2" field="lineComment2">
     <f:textbox />
   </f:entry>
-  <f:entry title="${%Single Line Comment}" field="lineComment3">
+  <f:entry title="${%Single Line Comment}3" field="lineComment3">
     <f:textbox />
   </f:entry>
-  <f:entry title="${%Area Comment1}" field="areaComment1">
+  <f:entry title="${%Area Comment}1" field="areaComment1">
     <f:textbox />
   </f:entry>
-  <f:entry title="${%Area Comment2}" field="areaComment2">
+  <f:entry title="${%Area Comment}2" field="areaComment2">
     <f:textbox />
   </f:entry>
-  <f:entry title="${%Area Comment3}" field="areaComment3">
+  <f:entry title="${%Area Comment}3" field="areaComment3">
     <f:textbox />
   </f:entry>
-  <f:entry title="${%Area Comment4}" field="areaComment4">
+  <f:entry title="${%Area Comment}4" field="areaComment4">
     <f:textbox />
   </f:entry>
          <f:entry title="">

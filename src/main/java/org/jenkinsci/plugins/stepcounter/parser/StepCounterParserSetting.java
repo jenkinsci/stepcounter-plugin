@@ -16,9 +16,19 @@ public class StepCounterParserSetting extends AbstractDescribableImpl<StepCounte
 	private List<String> lineComments = new ArrayList<String>();
 	private String fileType;
 
+	private String fileExtension;
+	private String lineComment1;
+	private String lineComment2;
+	private String lineComment3;
+	private String areaComment1;
+	private String areaComment2;
+	private String areaComment3;
+	private String areaComment4;
+
 	@Extension // TODO 不要？
 	public static final DescriptorImpl DESCRIPTOR = new DescriptorImpl();
 
+	//TODO できればareaCommentsやfileExtensionsの形で持たせて、Stringは排除したい
 	@DataBoundConstructor
 	public StepCounterParserSetting(String fileType, String fileExtension, String lineComment1, String lineComment2,
 			String lineComment3, String areaComment1, String areaComment2, String areaComment3, String areaComment4) {
@@ -28,25 +38,25 @@ public class StepCounterParserSetting extends AbstractDescribableImpl<StepCounte
 			setFileExtension(fileExtension);
 
 		if (lineComment1 != null && !"".equals(lineComment1))
-			addLineComment(lineComment1);
+			setLineComment1(lineComment1);
 
 		if (lineComment2 != null && !"".equals(lineComment2))
-			addLineComment(lineComment2);
+			setLineComment2(lineComment2);
 
 		if (lineComment3 != null && !"".equals(lineComment3))
-			addLineComment(lineComment3);
+			setLineComment3(lineComment3);
 
 		if (areaComment1 != null && !"".equals(areaComment1))
-			addAreaComment(areaComment1);
+			setAreaComment1(areaComment1);
 
 		if (areaComment2 != null && !"".equals(areaComment2))
-			addAreaComment(areaComment2);
+			setAreaComment2(areaComment2);
 
 		if (areaComment3 != null && !"".equals(areaComment3))
-			addAreaComment(areaComment3);
+			setAreaComment3(areaComment3);
 
 		if (areaComment4 != null && !"".equals(areaComment4))
-			addAreaComment(areaComment4);
+			setAreaComment4(areaComment4);
 	}
 
 	public List<AreaComment> getAreaComments() {
@@ -93,13 +103,14 @@ public class StepCounterParserSetting extends AbstractDescribableImpl<StepCounte
 	}
 
 	public void setFileExtension(String fileExtension) {
-		if(fileExtension.contains(",")){
+		this.fileExtension = fileExtension;
+		if (fileExtension.contains(",")) {
 			String[] s = fileExtension.split(",");
 			for (int i = 0; i < s.length; i++) {
 				String ext = s[i];
 				this.fileExtensions.add(ext);
 			}
-		}else{
+		} else {
 			this.fileExtensions.add(fileExtension);
 		}
 	}
@@ -114,6 +125,78 @@ public class StepCounterParserSetting extends AbstractDescribableImpl<StepCounte
 
 	public List<String> getLineComments() {
 		return lineComments;
+	}
+
+	public String getLineComment1() {
+		return lineComment1;
+	}
+
+	public void setLineComment1(String lineComment1) {
+		this.lineComment1 = lineComment1;
+	}
+
+	public String getLineComment2() {
+		return lineComment2;
+	}
+
+	public void setLineComment2(String lineComment2) {
+		this.lineComment2 = lineComment2;
+	}
+
+	public String getLineComment3() {
+		return lineComment3;
+	}
+
+	public void setLineComment3(String lineComment3) {
+		this.lineComment3 = lineComment3;
+	}
+
+	public String getAreaComment1() {
+		return areaComment1;
+	}
+
+	public void setAreaComment1(String areaComment1) {
+		this.areaComment1 = areaComment1;
+		addAreaComment(areaComment1);
+	}
+
+	public String getAreaComment2() {
+		return areaComment2;
+	}
+
+	public void setAreaComment2(String areaComment2) {
+		this.areaComment2 = areaComment2;
+		addAreaComment(areaComment2);
+	}
+
+	public String getAreaComment3() {
+		return areaComment3;
+	}
+
+	public void setAreaComment3(String areaComment3) {
+		this.areaComment3 = areaComment3;
+		addAreaComment(areaComment3);
+	}
+
+	public String getAreaComment4() {
+		return areaComment4;
+	}
+
+	public void setAreaComment4(String areaComment4) {
+		this.areaComment4 = areaComment4;
+		addAreaComment(areaComment4);
+	}
+
+	public String getFileExtension() {
+		return fileExtension;
+	}
+
+	public void setAreaComments(List<AreaComment> areaComments) {
+		this.areaComments = areaComments;
+	}
+
+	public void setLineComments(List<String> lineComments) {
+		this.lineComments = lineComments;
 	}
 
 }
