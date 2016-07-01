@@ -9,12 +9,12 @@ Build by [CloudBees](https://jenkins.ci.cloudbees.com/job/plugins/job/stepcounte
 
 Release
 ---------------
+* 1.4.4
+ - fix excel format
 * 1.4.3
  - fix reuslt screen layout
-
 * 1.4.2
  - add the function to be configured to your own count format
-
 * 1.4.0
  - build with jp.sf.amateras.stepcounter 3.0.3
  - add the function to output a file
