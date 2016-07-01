@@ -7,6 +7,15 @@ This plugin bundles [StepCounter](https://github.com/takezoe/stepcounter).
 
 Build by [CloudBees](https://jenkins.ci.cloudbees.com/job/plugins/job/stepcounter-plugin/)
 
+Release
+---------------
+* 1.4.3
+ - add the function to be configured to your own count format
+
+* 1.4.0
+ - build with jp.sf.amateras.stepcounter 3.0.3
+ - add the function to output a file
+
 Author
 ---------------
 * [Takuma Ishibashi](https://github.com/takuma02141978)
