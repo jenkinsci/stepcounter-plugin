@@ -9,6 +9,9 @@ Build by [CloudBees](https://jenkins.ci.cloudbees.com/job/plugins/job/stepcounte
 
 Release
 ---------------
+* 1.4.3
+ - fix reuslt screen layout
+
 * 1.4.2
  - add the function to be configured to your own count format
 
