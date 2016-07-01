@@ -36,16 +36,19 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 
 	private String category;
 
+	private List<StepCounterParserSetting> setting;
+
 	public StepCounterParser(final String filePattern, final String filePatternExclude, final String encoding,
-            final BuildListener listener, String category) {
+            final BuildListener listener, String category,List<StepCounterParserSetting> setting) {
         this.filePattern = filePattern;
         this.filePatternExclude = filePatternExclude;
         this.encoding = encoding;
         this.listener = listener;
         this.category = category;
+        this.setting = setting;
     }
 
-    public StepCounterResult invoke(final File workspace, final VirtualChannel channel) throws IOException {
+	public StepCounterResult invoke(final File workspace, final VirtualChannel channel) throws IOException {
         StepCounterResult result = new StepCounterResult();
         try {
             String[] fileNames = new FileFinder(filePattern, filePatternExclude).find(workspace);
@@ -108,7 +111,7 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 
     private void parseFile(final File file, final StepCounterResult result, final String rootPath) throws IOException {
         listener.getLogger().println("[stepcounter] " + file.getAbsolutePath());
-        StepCounter counter = OriginalStepCounterFactory.getCounter(file);
+        StepCounter counter = OriginalStepCounterFactory.getCounter(file,this.setting);
         if (counter != null) {
 
             CountResult countResult = counter.count(file, encoding);
