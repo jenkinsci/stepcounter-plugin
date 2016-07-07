@@ -9,6 +9,8 @@ Build by [CloudBees](https://jenkins.ci.cloudbees.com/job/plugins/job/stepcounte
 
 Release
 ---------------
+* 1.4.5
+ - fix bug : single line comment of global setting is ignored
 * 1.4.4
  - fix excel format
 * 1.4.3
