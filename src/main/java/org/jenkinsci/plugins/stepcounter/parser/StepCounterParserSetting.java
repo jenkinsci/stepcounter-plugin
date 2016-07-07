@@ -133,6 +133,7 @@ public class StepCounterParserSetting extends AbstractDescribableImpl<StepCounte
 
 	public void setLineComment1(String lineComment1) {
 		this.lineComment1 = lineComment1;
+		this.addLineComment(lineComment1);
 	}
 
 	public String getLineComment2() {
@@ -141,6 +142,7 @@ public class StepCounterParserSetting extends AbstractDescribableImpl<StepCounte
 
 	public void setLineComment2(String lineComment2) {
 		this.lineComment2 = lineComment2;
+		this.addLineComment(lineComment2);
 	}
 
 	public String getLineComment3() {
@@ -149,6 +151,7 @@ public class StepCounterParserSetting extends AbstractDescribableImpl<StepCounte
 
 	public void setLineComment3(String lineComment3) {
 		this.lineComment3 = lineComment3;
+		this.addLineComment(lineComment3);
 	}
 
 	public String getAreaComment1() {
