@@ -12,22 +12,24 @@ import jp.sf.amateras.stepcounter.StepCounterFactory;
 public class OriginalStepCounterFactory {
 
 	public static StepCounter getCounter(File file, List<StepCounterParserSetting> setting) {
-		StepCounter counter =null;
+		StepCounter counter = null;
 		String fileName = file.getName();
 
-		counter = getCounter(fileName,setting);
+		if (setting != null){
+			counter = getCounter(fileName, setting);
+		}
 
-		if(fileName.endsWith(".jspx")){
+		if (fileName.endsWith(".jspx")) {
 			DefaultStepCounter defaultCounter = new DefaultStepCounter();
 			defaultCounter.addLineComment("//");
-			defaultCounter.addAreaComment(new AreaComment("/*","*/"));
-			defaultCounter.addAreaComment(new AreaComment("<%--","--%>"));
-			defaultCounter.addAreaComment(new AreaComment("<!--","-->"));
+			defaultCounter.addAreaComment(new AreaComment("/*", "*/"));
+			defaultCounter.addAreaComment(new AreaComment("<%--", "--%>"));
+			defaultCounter.addAreaComment(new AreaComment("<!--", "-->"));
 			defaultCounter.setFileType("JSPX");
 			counter = defaultCounter;
 		}
 
-		if(counter == null){
+		if (counter == null) {
 			counter = StepCounterFactory.getCounter(file.getName());
 		}
 
@@ -35,14 +37,16 @@ public class OriginalStepCounterFactory {
 	}
 
 	private static StepCounter getCounter(String fileName, List<StepCounterParserSetting> setting) {
+
 		for (Iterator<StepCounterParserSetting> it = setting.iterator(); it.hasNext();) {
 			StepCounterParserSetting parser = (StepCounterParserSetting) it.next();
 			List<String> exts = parser.getFileExtensions();
-			if(exts == null) continue;
+			if (exts == null)
+				continue;
 
 			for (Iterator<String> extIt = exts.iterator(); extIt.hasNext();) {
 				String ext = (String) extIt.next();
-				if(fileName.endsWith(ext)){
+				if (fileName.endsWith(ext)) {
 					return getCounter(parser);
 				}
 

@@ -131,11 +131,12 @@ public class StepCounter extends Publisher {
 					out.close();
 				}
 			}
-
-		} catch (Exception e) {
+		} catch (IOException e) {
 			build.setResult(Result.FAILURE);
-			listener.error(e.getMessage());
-			e.printStackTrace();
+			 listener.error(e.getMessage());
+		} catch (InterruptedException e) {
+			build.setResult(Result.FAILURE);
+			 listener.error(e.getMessage());
 		}
 
 		return true;
