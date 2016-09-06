@@ -4,13 +4,13 @@
 	<parent>
 		<groupId>org.jenkins-ci.plugins</groupId>
 		<artifactId>plugin</artifactId>
-		<version>1.610</version>
+		<version>2.7</version>
 		<!-- which version of Jenkins is this plugin built against? -->
 	</parent>
 
 	<artifactId>stepcounter</artifactId>
 	<name>StepCounter Plugin</name>
-	<version>1.4.7-SNAPSHOT</version>
+	<version>1.4.6-SNAPSHOT</version>
 	<packaging>hpi</packaging>
 
 	<!-- get every artifact through maven.glassfish.org, which proxies all the
@@ -61,16 +61,4 @@
 		<url>https://github.com/jenkinsci/stepcounter-plugin.git</url>
 		<tag>stepcounter-1.4.1</tag>
 	</scm>
-	<distributionManagement>
-		<repository>
-			<id>central</id>
-			<name>jenkinsci-releases</name>
-			<url>https://repo.jenkins-ci.org/jenkinsci/bogus</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>jenkinsci-snapshots</name>
-			<url>https://repo.jenkins-ci.org/jenkinsci/bogus</url>
-		</snapshotRepository>
-	</distributionManagement>
 </project>
