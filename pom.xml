@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jenkins-ci.plugins</groupId>
@@ -60,4 +61,16 @@
 		<url>https://github.com/jenkinsci/stepcounter-plugin.git</url>
 		<tag>stepcounter-1.4.1</tag>
 	</scm>
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>jenkinsci-releases</name>
+			<url>https://repo.jenkins-ci.org/jenkinsci/bogus</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>jenkinsci-snapshots</name>
+			<url>https://repo.jenkins-ci.org/jenkinsci/bogus</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
