@@ -9,6 +9,8 @@ Build by [CloudBees](https://jenkins.ci.cloudbees.com/job/plugins/job/stepcounte
 
 Release
 ---------------
+* 1.4.6
+ - fix bug : null pointer exception if global setting is nothing.
 * 1.4.5
  - fix bug : single line comment of global setting is ignored
 * 1.4.4
