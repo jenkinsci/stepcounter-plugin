@@ -1,16 +1,12 @@
 package org.jenkinsci.plugins.stepcounter;
 
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
+
 import hudson.Extension;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.util.FormValidation;
-
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
-import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.QueryParameter;
 
 public class StepCounterSetting extends AbstractDescribableImpl<StepCounterSetting> {
     String encoding;
@@ -28,9 +24,6 @@ public class StepCounterSetting extends AbstractDescribableImpl<StepCounterSetti
         this.key = key;
     }
 
-    /**
-     * We'll use this from the <tt>config.jelly</tt>.
-     */
     public String getFilePattern() {
         if (filePattern == null || "".equals(filePattern)) {
             return DEFAULT_FILEPATTERN;
@@ -62,24 +55,21 @@ public class StepCounterSetting extends AbstractDescribableImpl<StepCounterSetti
 
         /**
          * Performs on-the-fly validation of the form field 'name'.
-         * 
+         *
          * @param value
          *            This parameter receives the value that the user has typed.
          * @return Indicates the outcome of the validation. This is sent to the
          *         browser.
          */
-        public FormValidation doCheckFilePattern(@QueryParameter String value) throws IOException, ServletException {
+        public FormValidation doCheckFilePattern(@QueryParameter String value) {
             return FormValidation.ok();
         }
 
-        public FormValidation doCheckEncoding(@QueryParameter String value) throws IOException, ServletException {
-            // if(!Charset.availableCharsets().containsKey(value)){
-            // return FormValidation.error(Messages.errorUnsupportedEncoding());
-            // }
+        public FormValidation doCheckEncoding(@QueryParameter String value) {
             return FormValidation.ok();
         }
 
-        public FormValidation doCheckKey(@QueryParameter String key) throws IOException, ServletException {
+        public FormValidation doCheckKey(@QueryParameter String key) {
             if (key == null || "".equals(key)) {
                 return FormValidation.error(Messages.errorCategoryRequired());
             }

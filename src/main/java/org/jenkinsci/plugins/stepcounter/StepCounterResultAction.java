@@ -25,7 +25,6 @@ import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
 import hudson.Util;
-import hudson.model.AbstractBuild;
 import hudson.model.Action;
 import hudson.model.Result;
 import hudson.model.Run;
@@ -43,11 +42,11 @@ public class StepCounterResultAction implements Action {
      */
     Map<String, StepCounterResult> _stepsMap = new HashMap<String, StepCounterResult>();
 
-    private AbstractBuild<?, ?> owner;
+    private Run<?, ?> owner;
 
     private Map<Integer, Color> _colors = new HashMap<Integer, Color>();
 
-    public StepCounterResultAction(AbstractBuild<?, ?> build) {
+    public StepCounterResultAction(Run<?, ?> build) {
         this.owner = build;
 
         for (Field field : Color.class.getDeclaredFields()) {
@@ -110,7 +109,7 @@ public class StepCounterResultAction implements Action {
             return null;
         }
 
-        AbstractBuild<?, ?> build = getBuild();
+        Run<?, ?> build = getBuild();
         Calendar t = Calendar.getInstance();
         if(build != null){
             t = build.getTimestamp();
@@ -140,7 +139,7 @@ public class StepCounterResultAction implements Action {
         return graph;
     }
 
-    private AbstractBuild<?, ?> getBuild() {
+    private Run<?, ?> getBuild() {
         return this.owner;
     }
 
@@ -255,9 +254,9 @@ public class StepCounterResultAction implements Action {
         return getPreviousResult(owner);
     }
 
-    private StepCounterResultAction getPreviousResult(AbstractBuild<?, ?> start) {
+    private StepCounterResultAction getPreviousResult(Run<?, ?> start) {
     	if(start ==null) return null;
-        AbstractBuild<?, ?> b = start;
+        Run<?, ?> b = start;
         while (true) {
             b = b.getPreviousBuild();
             if (b == null)
@@ -270,7 +269,7 @@ public class StepCounterResultAction implements Action {
         }
     }
 
-    public AbstractBuild<?, ?> getOwner(){
+    public Run<?, ?> getOwner(){
         return this.owner;
     }
 
