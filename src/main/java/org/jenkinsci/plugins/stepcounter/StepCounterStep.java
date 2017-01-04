@@ -17,6 +17,7 @@ import hudson.FilePath;
 import hudson.Launcher;
 import hudson.model.Run;
 import hudson.model.TaskListener;
+import hudson.util.ListBoxModel;
 
 public class StepCounterStep extends AbstractStepImpl {
 
@@ -106,7 +107,11 @@ public class StepCounterStep extends AbstractStepImpl {
 
 	        @Override
 	        public String getDisplayName() {
-	            return "StepCounter";
+	            return "Count steps";
 	        }
+
+	        public ListBoxModel doFillOutputFormatItems() {
+				return StepCounter.outputFormatItems;
+			}
 	    }
 }

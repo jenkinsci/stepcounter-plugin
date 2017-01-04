@@ -13,7 +13,7 @@ public class StepCounterSetting extends AbstractDescribableImpl<StepCounterSetti
     String filePattern;
     String filePatternExclude;
     private String key;
-    private static final String DEFAULT_FILEPATTERN = "src/main/java/**/*.java";
+    private static final String DEFAULT_FILEPATTERN = "";
     private static final String DEFAULT_FILEPATTERN_EXCLUDE = "";
 
     @DataBoundConstructor

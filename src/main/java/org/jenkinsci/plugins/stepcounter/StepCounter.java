@@ -49,6 +49,15 @@ public class StepCounter extends Publisher {
 	public String outputFile;
 	public String outputFormat;
 
+	public final static ListBoxModel outputFormatItems  = new ListBoxModel();
+
+	static{
+		outputFormatItems.add("Excel(xls)", "excel");
+		outputFormatItems.add("CSV", "csv");
+		outputFormatItems.add("XML", "xml");
+		outputFormatItems.add("JSON", "json");
+	}
+
 	@Extension
 	public static final DescriptorImpl DESCRIPTOR = new DescriptorImpl();
 
@@ -261,12 +270,7 @@ public class StepCounter extends Publisher {
 		}
 
 		public ListBoxModel doFillOutputFormatItems() {
-			ListBoxModel items = new ListBoxModel();
-			items.add("Excel(xls)", "excel");
-			items.add("CSV", "csv");
-			items.add("XML", "xml");
-			items.add("JSON", "json");
-			return items;
+			return outputFormatItems;
 		}
 
 		// @Override
