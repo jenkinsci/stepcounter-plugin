@@ -62,6 +62,8 @@ public class StepCounterStep extends AbstractStepImpl {
 
 	public static class StepCounterExecution extends AbstractSynchronousStepExecution<Void>{
 
+		private static final long serialVersionUID = 1L;
+
         @Inject
         private transient StepCounterStep step;
 

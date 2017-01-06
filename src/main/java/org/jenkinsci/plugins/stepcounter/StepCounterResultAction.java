@@ -113,8 +113,8 @@ public class StepCounterResultAction implements Action {
 
 		String w = Util.fixEmptyAndTrim(req.getParameter("width"));
 		String h = Util.fixEmptyAndTrim(req.getParameter("height"));
-		int width = (w != null) ? Integer.valueOf(w) : 500;
-		int height = (h != null) ? Integer.valueOf(h) : 200;
+		int width = (w != null) ? Integer.parseInt(w) : 500;
+		int height = (h != null) ? Integer.parseInt(h) : 200;
 
 		Graph graph = new GraphImpl(this, t, width, height, relPath) {
 

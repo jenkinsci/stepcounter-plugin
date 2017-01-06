@@ -52,9 +52,9 @@ public class StepCounter extends Publisher {
 	public String outputFile;
 	public String outputFormat;
 
-	public final static ListBoxModel outputFormatItems  = new ListBoxModel();
+	public final static ListBoxModel outputFormatItems = new ListBoxModel();
 
-	static{
+	static {
 		outputFormatItems.add("Excel(xls)", "excel");
 		outputFormatItems.add("CSV", "csv");
 		outputFormatItems.add("XML", "xml");
@@ -94,7 +94,7 @@ public class StepCounter extends Publisher {
 		projectAction.setResult(resultAction);
 		boolean result = false;
 		try {
-			result  = _perform(resultAction, workspace, vars, listener.getLogger());
+			result = _perform(resultAction, workspace, vars, listener.getLogger());
 		} catch (IOException e) {
 			run.setResult(Result.FAILURE);
 			listener.error(e.getMessage());
@@ -115,7 +115,7 @@ public class StepCounter extends Publisher {
 		try {
 			EnvVars vars = build.getEnvironment(listener);
 			FilePath workspace = build.getWorkspace();
-			result  = _perform(resultAction, workspace, vars, listener.getLogger());
+			result = _perform(resultAction, workspace, vars, listener.getLogger());
 		} catch (IOException e) {
 			build.setResult(Result.FAILURE);
 			listener.error(e.getMessage());
@@ -174,7 +174,8 @@ public class StepCounter extends Publisher {
 				logger.println("[stepcounter] " + e.getMessage());
 				e.printStackTrace();
 			} finally {
-				out.close();
+				if (out != null)
+					out.close();
 			}
 		}
 

@@ -33,12 +33,11 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<dependencies>
-		<dependency>
-			<groupId>ant</groupId>
-			<artifactId>ant</artifactId>
-			<version>1.7.0</version>
-			<scope>compile</scope>
-		</dependency>
+<!--		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>com.springsource.org.apache.tools.ant</artifactId>
+			<version>1.8.3</version>
+		</dependency>  -->
 		<dependency>
 			<groupId>jp.sf.amateras.stepcounter</groupId>
 			<artifactId>stepcounter</artifactId>

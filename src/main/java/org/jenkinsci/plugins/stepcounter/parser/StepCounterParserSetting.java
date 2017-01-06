@@ -1,17 +1,20 @@
 package org.jenkinsci.plugins.stepcounter.parser;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jenkinsci.plugins.stepcounter.model.SerializableAreaComment;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import hudson.Extension;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
-import jp.sf.amateras.stepcounter.AreaComment;
 
-public class StepCounterParserSetting extends AbstractDescribableImpl<StepCounterParserSetting> {
-	private List<AreaComment> areaComments = new ArrayList<AreaComment>();
+public class StepCounterParserSetting extends AbstractDescribableImpl<StepCounterParserSetting> implements Serializable{
+	private static final long serialVersionUID = -5363899957219180319L;
+
+	private List<SerializableAreaComment> areaComments = new ArrayList<SerializableAreaComment>();
 	private List<String> fileExtensions = new ArrayList<String>();
 	private List<String> lineComments = new ArrayList<String>();
 	private String fileType;
@@ -59,12 +62,12 @@ public class StepCounterParserSetting extends AbstractDescribableImpl<StepCounte
 			setAreaComment4(areaComment4);
 	}
 
-	public List<AreaComment> getAreaComments() {
+	public List<SerializableAreaComment> getAreaComments() {
 		return areaComments;
 	}
 
 	public void addAreaComment(String start, String end) {
-		this.areaComments.add(new AreaComment(start, end));
+		this.areaComments.add(new SerializableAreaComment(start, end));
 	}
 
 	public String getFileType() {
@@ -194,7 +197,7 @@ public class StepCounterParserSetting extends AbstractDescribableImpl<StepCounte
 		return fileExtension;
 	}
 
-	public void setAreaComments(List<AreaComment> areaComments) {
+	public void setAreaComments(List<SerializableAreaComment> areaComments) {
 		this.areaComments = areaComments;
 	}
 

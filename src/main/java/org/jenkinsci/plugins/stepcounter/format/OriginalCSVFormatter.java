@@ -1,5 +1,7 @@
 package org.jenkinsci.plugins.stepcounter.format;
 
+import java.io.UnsupportedEncodingException;
+
 import jp.sf.amateras.stepcounter.CountResult;
 import jp.sf.amateras.stepcounter.format.CSVFormatter;
 import jp.sf.amateras.stepcounter.format.ResultFormatter;
@@ -40,6 +42,11 @@ public class OriginalCSVFormatter extends CSVFormatter implements ResultFormatte
 				sb.append("\n");
 			}
 		}
-		return sb.toString().getBytes();
+		try {
+			return sb.toString().getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

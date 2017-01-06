@@ -7,8 +7,12 @@ This plugin bundles [StepCounter](https://github.com/takezoe/stepcounter).
 
 Build by [CloudBees](https://jenkins.ci.cloudbees.com/job/plugins/job/stepcounter-plugin/)
 
+Please see [Wiki](https://wiki.jenkins-ci.org/display/JENKINS/Step+Counter+Plugin) for more information about the StepCounter plugin.
+
 Release
 ---------------
+* 2.0.0
+ - Pipeline support
 * 1.4.6
  - fix bug : null pointer exception if global setting is nothing.
 * 1.4.5

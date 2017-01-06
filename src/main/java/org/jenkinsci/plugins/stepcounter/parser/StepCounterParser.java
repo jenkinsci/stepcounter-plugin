@@ -29,7 +29,7 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 
 	private String encoding;
 
-	private PrintStream logger;
+	transient private PrintStream logger;
 
 	private List<OriginalCountResult> _results = new ArrayList<OriginalCountResult>();
 
