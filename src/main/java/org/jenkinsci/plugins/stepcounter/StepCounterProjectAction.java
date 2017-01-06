@@ -8,6 +8,7 @@ import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
 import hudson.model.Action;
+import hudson.model.Job;
 import hudson.model.Run;
 
 public class StepCounterProjectAction implements Action {
@@ -16,10 +17,15 @@ public class StepCounterProjectAction implements Action {
 
 	private StepCounterResultAction result;
 
-	private Run<?, ?> run;
+	/**
+	 * PipelineならWorkFlowJob、FreeStyleならFreeStyleProjectが入る
+	 */
+	private Job<?, ?> project;
 
-	public StepCounterProjectAction(Run<?, ?> run) {
-		this.run = run;
+
+	public StepCounterProjectAction(Job<?, ?> project) {
+		this.project = project;
+
 	}
 
 	public StepCounterResultAction getResult() {
@@ -78,10 +84,10 @@ public class StepCounterProjectAction implements Action {
 	}
 
 	public StepCounterResultAction getPreviousResult() {
-		final Run<?, ?> tb = run.getPreviousSuccessfulBuild();
-		Run<?, ?> b = run.getPreviousBuild();
+		final Run<?, ?> tb = this.project.getLastSuccessfulBuild();
+		Run<?, ?> b = this.project.getLastBuild();
 		while (b != null) {
-			StepCounterProjectAction a = run.getAction(StepCounterProjectAction.class);
+			StepCounterProjectAction a = b.getAction(StepCounterProjectAction.class);
 			if (a != null) {
 				return a.getResult();
 			}
@@ -106,13 +112,13 @@ public class StepCounterProjectAction implements Action {
 
 	public void doIndex(final StaplerRequest request, final StaplerResponse response) throws IOException {
 		if (getResult() == null) {
-			Run<?, ?> build = getLastFinishedBuild(run.getPreviousBuild());
+			Run<?, ?> build = getLastFinishedBuild(project.getLastBuild());
 			if (build != null) {
 				response.sendRedirect2(
 						String.format("../%d/%s", build.getNumber(), STEPCOUNTERPROJECTACTION_PATH + "/result"));
 			}
 		} else {
-			Run<?, ?> build = getLastFinishedBuild(getResult().getOwner());
+			Run<?, ?> build = getLastFinishedBuild(result.getOwner());
 			if (build != null) {
 				response.sendRedirect2(
 						String.format("../../%d/%s", build.getNumber(), STEPCOUNTERPROJECTACTION_PATH + "/result"));

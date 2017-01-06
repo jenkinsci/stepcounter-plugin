@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,6 +28,7 @@ import hudson.FilePath;
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
+import hudson.model.Action;
 import hudson.model.BuildListener;
 import hudson.model.Descriptor;
 import hudson.model.Result;
@@ -85,7 +88,7 @@ public class StepCounter extends Publisher {
 
 	public boolean perform(Run<?, ?> run, Launcher launcher, FilePath workspace, TaskListener listener, EnvVars vars) {
 
-		StepCounterProjectAction projectAction = new StepCounterProjectAction(run);
+		StepCounterProjectAction projectAction = new StepCounterProjectAction(run.getParent());
 		StepCounterResultAction resultAction = new StepCounterResultAction(run);
 		run.addAction(projectAction);
 		projectAction.setResult(resultAction);
@@ -104,7 +107,7 @@ public class StepCounter extends Publisher {
 
 	@Override
 	public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) {
-		StepCounterProjectAction projectAction = new StepCounterProjectAction(build);
+		StepCounterProjectAction projectAction = new StepCounterProjectAction(build.getProject());
 		StepCounterResultAction resultAction = new StepCounterResultAction(build);
 		build.addAction(projectAction);
 		projectAction.setResult(resultAction);
@@ -293,10 +296,10 @@ public class StepCounter extends Publisher {
 		return BuildStepMonitor.STEP;
 	}
 
-//	@Override
-//	public Collection<Action> getProjectActions(AbstractProject<?, ?> project) {
-//		return Collections.<Action> singleton(new StepCounterProjectAction(project));
-//	}
+	@Override
+	public Collection<Action> getProjectActions(AbstractProject<?, ?> project) {
+		return Collections.<Action> singleton(new StepCounterProjectAction(project));
+	}
 
 	public String getOutputFile() {
 		return outputFile;
