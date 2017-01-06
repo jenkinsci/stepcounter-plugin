@@ -1,10 +1,13 @@
 package org.jenkinsci.plugins.stepcounter.format;
 
 import java.io.File;
+import java.io.Serializable;
 
 import jp.sf.amateras.stepcounter.CountResult;
 
-public class OriginalCountResult extends CountResult {
+public class OriginalCountResult extends CountResult implements Serializable{
+
+	private static final long serialVersionUID = -8220326629807881341L;
 
 	private String relativePath;
 

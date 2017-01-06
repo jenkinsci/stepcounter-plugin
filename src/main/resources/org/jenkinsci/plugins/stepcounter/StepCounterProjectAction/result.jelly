@@ -15,7 +15,7 @@
 					$162('#tabs').tabs({
 						selected: 0,
 						fx: { opacity: 'toggle', duration: 'fast'	}
-						});
+				});
 				});
 			</script>
 			<j:set var="allRunsSum" value="0" />
@@ -51,7 +51,7 @@
 			</table>
 			<div align="left"><h1>${%Category Summary}</h1></div>
 			<div id="tabs">
-				<ul>
+				<ul style="display: flex;">
 					<j:forEach var="iter" items="${it.result.stepsMap}">
 						<li><a href="#${iter.key}">${iter.key}</a></li>
 					</j:forEach>

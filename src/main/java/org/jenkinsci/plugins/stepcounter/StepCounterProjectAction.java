@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
-import hudson.model.AbstractBuild;
-import hudson.model.AbstractProject;
 import hudson.model.Action;
+import hudson.model.Job;
+import hudson.model.Run;
 
 public class StepCounterProjectAction implements Action {
 
@@ -17,10 +17,15 @@ public class StepCounterProjectAction implements Action {
 
 	private StepCounterResultAction result;
 
-	private AbstractProject<?, ?> project;
+	/**
+	 * PipelineならWorkFlowJob、FreeStyleならFreeStyleProjectが入る
+	 */
+	private Job<?, ?> project;
 
-	public StepCounterProjectAction(AbstractProject<?, ?> project) {
+
+	public StepCounterProjectAction(Job<?, ?> project) {
 		this.project = project;
+
 	}
 
 	public StepCounterResultAction getResult() {
@@ -79,8 +84,8 @@ public class StepCounterProjectAction implements Action {
 	}
 
 	public StepCounterResultAction getPreviousResult() {
-		final AbstractBuild<?, ?> tb = project.getLastSuccessfulBuild();
-		AbstractBuild<?, ?> b = project.getLastBuild();
+		final Run<?, ?> tb = this.project.getLastSuccessfulBuild();
+		Run<?, ?> b = this.project.getLastBuild();
 		while (b != null) {
 			StepCounterProjectAction a = b.getAction(StepCounterProjectAction.class);
 			if (a != null) {
@@ -97,7 +102,7 @@ public class StepCounterProjectAction implements Action {
 		return null;
 	}
 
-	public AbstractBuild<?, ?> getLastFinishedBuild(AbstractBuild<?, ?> lastBuild) {
+	public Run<?, ?> getLastFinishedBuild(Run<?, ?> lastBuild) {
 		while (lastBuild != null
 				&& (lastBuild.isBuilding() || lastBuild.getAction(StepCounterProjectAction.class) == null)) {
 			lastBuild = lastBuild.getPreviousBuild();
@@ -107,13 +112,13 @@ public class StepCounterProjectAction implements Action {
 
 	public void doIndex(final StaplerRequest request, final StaplerResponse response) throws IOException {
 		if (getResult() == null) {
-			AbstractBuild<?, ?> build = getLastFinishedBuild(project.getLastBuild());
+			Run<?, ?> build = getLastFinishedBuild(project.getLastBuild());
 			if (build != null) {
 				response.sendRedirect2(
 						String.format("../%d/%s", build.getNumber(), STEPCOUNTERPROJECTACTION_PATH + "/result"));
 			}
 		} else {
-			AbstractBuild<?, ?> build = getLastFinishedBuild(getResult().getOwner());
+			Run<?, ?> build = getLastFinishedBuild(result.getOwner());
 			if (build != null) {
 				response.sendRedirect2(
 						String.format("../../%d/%s", build.getNumber(), STEPCOUNTERPROJECTACTION_PATH + "/result"));

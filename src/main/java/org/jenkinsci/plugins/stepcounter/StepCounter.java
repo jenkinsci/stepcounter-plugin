@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,6 +24,7 @@ import org.kohsuke.stapler.StaplerRequest;
 
 import hudson.EnvVars;
 import hudson.Extension;
+import hudson.FilePath;
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
@@ -30,6 +32,8 @@ import hudson.model.Action;
 import hudson.model.BuildListener;
 import hudson.model.Descriptor;
 import hudson.model.Result;
+import hudson.model.Run;
+import hudson.model.TaskListener;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
@@ -47,6 +51,15 @@ public class StepCounter extends Publisher {
 
 	public String outputFile;
 	public String outputFormat;
+
+	public final static ListBoxModel outputFormatItems = new ListBoxModel();
+
+	static {
+		outputFormatItems.add("Excel(xls)", "excel");
+		outputFormatItems.add("CSV", "csv");
+		outputFormatItems.add("XML", "xml");
+		outputFormatItems.add("JSON", "json");
+	}
 
 	@Extension
 	public static final DescriptorImpl DESCRIPTOR = new DescriptorImpl();
@@ -73,70 +86,97 @@ public class StepCounter extends Publisher {
 		return this.settings;
 	}
 
+	public boolean perform(Run<?, ?> run, Launcher launcher, FilePath workspace, TaskListener listener, EnvVars vars) {
+
+		StepCounterProjectAction projectAction = new StepCounterProjectAction(run.getParent());
+		StepCounterResultAction resultAction = new StepCounterResultAction(run);
+		run.addAction(projectAction);
+		projectAction.setResult(resultAction);
+		boolean result = false;
+		try {
+			result = _perform(resultAction, workspace, vars, listener.getLogger());
+		} catch (IOException e) {
+			run.setResult(Result.FAILURE);
+			listener.error(e.getMessage());
+		} catch (InterruptedException e) {
+			run.setResult(Result.FAILURE);
+			listener.error(e.getMessage());
+		}
+		return result;
+	}
+
 	@Override
 	public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) {
+		StepCounterProjectAction projectAction = new StepCounterProjectAction(build.getProject());
+		StepCounterResultAction resultAction = new StepCounterResultAction(build);
+		build.addAction(projectAction);
+		projectAction.setResult(resultAction);
+		boolean result = false;
 		try {
-			StepCounterProjectAction projectAction = new StepCounterProjectAction(build.getProject());
-			StepCounterResultAction resultAction = new StepCounterResultAction(build);
-			build.addAction(projectAction);
-			projectAction.setResult(resultAction);
-
-			List<StepCounterParser> parsers = new ArrayList<StepCounterParser>();
-			if (getSettings() == null) {
-				return false;
-			}
 			EnvVars vars = build.getEnvironment(listener);
-
-			for (StepCounterSetting setting : getSettings()) {
-				String encoding = vars.expand(setting.getEncoding());
-				String category = vars.expand(setting.getKey());
-				String includes = vars.expand(setting.getFilePattern());
-				String excludes = vars.expand(setting.getFilePatternExclude());
-				listener.getLogger().println("[stepcounter] category [" + category + "]");
-				listener.getLogger().println("[stepcounter] includes [" + includes + "]");
-				listener.getLogger().println("[stepcounter] excludes [" + excludes + "]");
-				listener.getLogger().println("[stepcounter] encoding [" + encoding + "]");
-				StepCounterParser finder = new StepCounterParser(includes, excludes, encoding, listener, category,
-						DESCRIPTOR.getCountFormats());
-				StepCounterResult result = build.getWorkspace().act(finder);
-				resultAction.putStepsMap(category, result);
-				parsers.add(finder);
-			}
-
-			if (isOutput && getOutputFile() != null && !"".equals(getOutputFile())) {
-				listener.getLogger().println("[stepcounter] output to file");
-				List<CountResult> results = new ArrayList<CountResult>();
-				for (Iterator<StepCounterParser> iterator = parsers.iterator(); iterator.hasNext();) {
-					StepCounterParser stepCounterParser = (StepCounterParser) iterator.next();
-					results.addAll(stepCounterParser.getCountResults());
-				}
-
-				String format = vars.expand(getOutputFormat());
-				String filename = vars.expand(getOutputFile());
-				ResultFormatter formatter = OriginalFormatterFactory.getFormatter(format);
-				byte[] output = formatter.format(results.toArray(new CountResult[results.size()]));
-				OutputStream out = null;
-				try {
-					File file = new File(new File(build.getWorkspace().toURI()), filename);
-					listener.getLogger().println(
-							"[stepcounter] output to [" + file.getAbsolutePath() + "] in [" + format + "] format");
-					out = new BufferedOutputStream(new FileOutputStream(file));
-					out.write(output);
-					out.flush();
-
-				} catch (Exception e) {
-					listener.error(e.getMessage());
-					e.printStackTrace();
-				} finally {
-					out.close();
-				}
-			}
+			FilePath workspace = build.getWorkspace();
+			result = _perform(resultAction, workspace, vars, listener.getLogger());
 		} catch (IOException e) {
 			build.setResult(Result.FAILURE);
-			 listener.error(e.getMessage());
+			listener.error(e.getMessage());
 		} catch (InterruptedException e) {
 			build.setResult(Result.FAILURE);
-			 listener.error(e.getMessage());
+			listener.error(e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean _perform(StepCounterResultAction resultAction, FilePath workspace, EnvVars vars, PrintStream logger)
+			throws IOException, InterruptedException {
+
+		List<StepCounterParser> parsers = new ArrayList<StepCounterParser>();
+		if (getSettings() == null) {
+			return false;
+		}
+
+		for (StepCounterSetting setting : getSettings()) {
+			String encoding = vars.expand(setting.getEncoding());
+			String category = vars.expand(setting.getKey());
+			String includes = vars.expand(setting.getFilePattern());
+			String excludes = vars.expand(setting.getFilePatternExclude());
+			logger.println("[stepcounter] category [" + category + "]");
+			logger.println("[stepcounter] includes [" + includes + "]");
+			logger.println("[stepcounter] excludes [" + excludes + "]");
+			logger.println("[stepcounter] encoding [" + encoding + "]");
+			StepCounterParser finder = new StepCounterParser(includes, excludes, encoding, logger, category,
+					DESCRIPTOR.getCountFormats());
+			StepCounterResult result = workspace.act(finder);
+			resultAction.putStepsMap(category, result);
+			parsers.add(finder);
+		}
+
+		if (isOutput && getOutputFile() != null && !"".equals(getOutputFile())) {
+			logger.println("[stepcounter] output to file");
+			List<CountResult> results = new ArrayList<CountResult>();
+			for (Iterator<StepCounterParser> iterator = parsers.iterator(); iterator.hasNext();) {
+				StepCounterParser stepCounterParser = (StepCounterParser) iterator.next();
+				results.addAll(stepCounterParser.getCountResults());
+			}
+
+			String format = vars.expand(getOutputFormat());
+			String filename = vars.expand(getOutputFile());
+			ResultFormatter formatter = OriginalFormatterFactory.getFormatter(format);
+			byte[] output = formatter.format(results.toArray(new CountResult[results.size()]));
+			OutputStream out = null;
+			try {
+				File file = new File(new File(workspace.toURI()), filename);
+				logger.println("[stepcounter] output to [" + file.getAbsolutePath() + "] in [" + format + "] format");
+				out = new BufferedOutputStream(new FileOutputStream(file));
+				out.write(output);
+				out.flush();
+
+			} catch (Exception e) {
+				logger.println("[stepcounter] " + e.getMessage());
+				e.printStackTrace();
+			} finally {
+				if (out != null)
+					out.close();
+			}
 		}
 
 		return true;
@@ -234,12 +274,7 @@ public class StepCounter extends Publisher {
 		}
 
 		public ListBoxModel doFillOutputFormatItems() {
-			ListBoxModel items = new ListBoxModel();
-			items.add("Excel(xls)", "excel");
-			items.add("CSV", "csv");
-			items.add("XML", "xml");
-			items.add("JSON", "json");
-			return items;
+			return outputFormatItems;
 		}
 
 		// @Override

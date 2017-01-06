@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jenkinsci.plugins.stepcounter.model.SerializableAreaComment;
+
 import jp.sf.amateras.stepcounter.AreaComment;
 import jp.sf.amateras.stepcounter.DefaultStepCounter;
 import jp.sf.amateras.stepcounter.StepCounter;
@@ -62,7 +64,7 @@ public class OriginalStepCounterFactory {
 			String lineComment = (String) it.next();
 			counter.addLineComment(lineComment);
 		}
-		for (Iterator<AreaComment> it = parser.getAreaComments().iterator(); it.hasNext();) {
+		for (Iterator<SerializableAreaComment> it = parser.getAreaComments().iterator(); it.hasNext();) {
 			AreaComment areaComment = (AreaComment) it.next();
 			counter.addAreaComment(areaComment);
 		}
