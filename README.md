@@ -20,7 +20,7 @@ Release
 * 1.4.4
  - fix excel format
 * 1.4.3
- - fix reuslt screen layout
+ - fix result screen layout
 * 1.4.2
  - add the function to be configured to your own count format
 * 1.4.0
