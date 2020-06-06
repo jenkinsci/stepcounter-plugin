@@ -15,6 +15,7 @@ import org.jenkinsci.plugins.stepcounter.util.PathUtil;
 import org.jenkinsci.remoting.RoleChecker;
 
 import hudson.FilePath.FileCallable;
+import hudson.model.TaskListener;
 import hudson.remoting.VirtualChannel;
 import jp.sf.amateras.stepcounter.CountResult;
 import jp.sf.amateras.stepcounter.StepCounter;
@@ -29,7 +30,7 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 
 	private String encoding;
 
-	transient private PrintStream logger;
+	private TaskListener listener;
 
 	private List<OriginalCountResult> _results = new ArrayList<OriginalCountResult>();
 
@@ -38,11 +39,11 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 	private List<StepCounterParserSetting> setting;
 
 	public StepCounterParser(final String filePattern, final String filePatternExclude, final String encoding,
-			final PrintStream logger, String category, List<StepCounterParserSetting> setting) {
+			final TaskListener listener, String category, List<StepCounterParserSetting> setting) {
 		this.filePattern = filePattern;
 		this.filePatternExclude = filePatternExclude;
 		this.encoding = encoding;
-		this.logger = logger;
+		this.listener = listener;
 		this.category = category;
 		this.setting = setting;
 	}
@@ -53,27 +54,27 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 			String[] fileNames = new FileFinder(filePattern, filePatternExclude).find(workspace);
 
 			if (fileNames.length == 0) {
-				logger.println("[stepcounter] " + Messages.filenotfound());
+				listener.getLogger().println("[stepcounter] " + Messages.filenotfound());
 			} else {
-				logger.println(
+				listener.getLogger().println(
 						"[stepcounter] Parsing " + fileNames.length + " files in " + workspace.getAbsolutePath());
 				parseFiles(workspace, fileNames, result);
 			}
 		} catch (InterruptedException exception) {
-			logger.println("Parsing has been canceled.");
+			listener.getLogger().println("Parsing has been canceled.");
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			throw e;
 		}
 
-		logger.println("[stepcounter] Parse completed:" + result.getFileSteps().size() + " files");
+		listener.getLogger().println("[stepcounter] Parse completed:" + result.getFileSteps().size() + " files");
 
 		long total = 0;
 		for (Object oStep : result.getFileSteps()) {
 			FileStep step = (FileStep) oStep;
 			total += step.getRuns();
 		}
-		logger.println("[stepcounter] total[" + total + "]");
+		listener.getLogger().println("[stepcounter] total[" + total + "]");
 
 		return result;
 	}
@@ -113,7 +114,7 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 	}
 
 	private void parseFile(final File file, final StepCounterResult result, final String rootPath) throws IOException {
-		logger.println("[stepcounter] " + file.getAbsolutePath());
+		listener.getLogger().println("[stepcounter] " + file.getAbsolutePath());
 		StepCounter counter = OriginalStepCounterFactory.getCounter(file, this.setting);
 		if (counter != null) {
 
@@ -129,7 +130,7 @@ public class StepCounterParser implements FileCallable<StepCounterResult> {
 			OriginalCountResult originalCountResult = new OriginalCountResult(countResult, relativePath);
 			_results.add(originalCountResult);
 		} else {
-			logger.println("[stepcounter] no applicable file type [" + file.getName() + "]");
+			listener.getLogger().println("[stepcounter] no applicable file type [" + file.getName() + "]");
 		}
 	}
 

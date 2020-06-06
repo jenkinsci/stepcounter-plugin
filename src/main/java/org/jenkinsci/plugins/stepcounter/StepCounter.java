@@ -94,7 +94,7 @@ public class StepCounter extends Publisher {
 		projectAction.setResult(resultAction);
 		boolean result = false;
 		try {
-			result = _perform(resultAction, workspace, vars, listener.getLogger());
+			result = _perform(resultAction, workspace, vars, listener);
 		} catch (IOException e) {
 			run.setResult(Result.FAILURE);
 			listener.error(e.getMessage());
@@ -115,7 +115,7 @@ public class StepCounter extends Publisher {
 		try {
 			EnvVars vars = build.getEnvironment(listener);
 			FilePath workspace = build.getWorkspace();
-			result = _perform(resultAction, workspace, vars, listener.getLogger());
+			result = _perform(resultAction, workspace, vars, listener);
 		} catch (IOException e) {
 			build.setResult(Result.FAILURE);
 			listener.error(e.getMessage());
@@ -126,14 +126,14 @@ public class StepCounter extends Publisher {
 		return result;
 	}
 
-	public boolean _perform(StepCounterResultAction resultAction, FilePath workspace, EnvVars vars, PrintStream logger)
+	public boolean _perform(StepCounterResultAction resultAction, FilePath workspace, EnvVars vars, TaskListener listener)
 			throws IOException, InterruptedException {
 
 		List<StepCounterParser> parsers = new ArrayList<StepCounterParser>();
 		if (getSettings() == null) {
 			return false;
 		}
-
+                PrintStream logger = listener.getLogger();
 		for (StepCounterSetting setting : getSettings()) {
 			String encoding = vars.expand(setting.getEncoding());
 			String category = vars.expand(setting.getKey());
@@ -143,7 +143,7 @@ public class StepCounter extends Publisher {
 			logger.println("[stepcounter] includes [" + includes + "]");
 			logger.println("[stepcounter] excludes [" + excludes + "]");
 			logger.println("[stepcounter] encoding [" + encoding + "]");
-			StepCounterParser finder = new StepCounterParser(includes, excludes, encoding, logger, category,
+			StepCounterParser finder = new StepCounterParser(includes, excludes, encoding, listener, category,
 					DESCRIPTOR.getCountFormats());
 			StepCounterResult result = workspace.act(finder);
 			resultAction.putStepsMap(category, result);
